@@ -1,8 +1,8 @@
-// 13keyAgentTools Rev 0.3
+// 13keyAgentTools Rev 0.4
 // Parametric enclosure for a hand-wired Arduino Micro multi-agent macro keyboard.
 // Export one part at a time by changing `part`.
 
-part = "plate"; // plate / bottom / assembly / tolerance
+part = "plate"; // plate / bottom / assembly / tolerance / pixel_carrier
 
 $fn = 48;
 
@@ -16,30 +16,25 @@ corner_r = 4.0;
 
 key_pitch = 19.05;
 key_hole = 14.0;
-key_origin = [16, 14];
+// One EC11 encoder, reserved for future system-volume control.
+volume_encoder = [145, 22];
 
-// Two EC11 encoders: action/reasoning and dedicated volume control.
-action_encoder = [112, 34];
-volume_encoder = [140, 34];
-joystick_center = [112, 76];
-touch_center = [140, 76];
-
-// Twelve individually addressable RGB pixels arranged as a smooth quota bar.
+// Twelve individually addressable RGB pixels on the top panel.
 quota_led_count = 12;
-quota_led_start_x = 14;
-quota_led_pitch = 12.5;
-quota_led_window_w = 8;
-quota_led_window_h = 5;
-quota_led_center_z = 9;
+quota_led_start_x = 39;
+quota_led_pitch = 7.5;
+quota_led_window_w = 5;
+quota_led_window_d = 5;
+quota_led_center_y = 21;
 
-// 4 x 4 electrical matrix with three unused positions.
-// Rev 0.3 keeps 13 individual 1U keys and reserves the right side for controls.
+// Twelve keys occupy a compact 4 x 3 grid; the thirteenth key sits in the top row.
 key_positions = [
     [0, 0], [1, 0], [2, 0], [3, 0],
     [0, 1], [1, 1], [2, 1], [3, 1],
-    [0, 2], [1, 2], [2, 2], [3, 2],
-    [1, 3]
+    [0, 2], [1, 2], [2, 2], [3, 2]
 ];
+key_origin = [14, 42];
+top_key_origin = [14, 14];
 
 screw_positions = [
     [7, 7],
@@ -64,6 +59,8 @@ module key_holes(extra = 1) {
         ])
             cube([key_hole, key_hole, plate_t + 2 * extra], center = false);
     }
+    translate([top_key_origin[0], top_key_origin[1], -extra])
+        cube([key_hole, key_hole, plate_t + 2 * extra], center = false);
 }
 
 module screw_holes(extra = 1) {
@@ -74,25 +71,11 @@ module screw_holes(extra = 1) {
 }
 
 module control_holes(extra = 1) {
-    // Action/reasoning EC11 shaft and anti-rotation clearance.
-    translate([action_encoder[0], action_encoder[1], -extra])
-        cylinder(d = 8.0, h = plate_t + 2 * extra);
-    translate([action_encoder[0], action_encoder[1] - 8, -extra])
-        cube([12, 16, plate_t + 2 * extra], center = true);
-
     // Dedicated volume EC11 shaft and anti-rotation clearance.
     translate([volume_encoder[0], volume_encoder[1], -extra])
         cylinder(d = 8.0, h = plate_t + 2 * extra);
     translate([volume_encoder[0], volume_encoder[1] - 8, -extra])
         cube([12, 16, plate_t + 2 * extra], center = true);
-
-    // Generic 2-axis joystick keep-out. Tune after buying the actual module.
-    translate([joystick_center[0], joystick_center[1], -extra])
-        cube([19, 19, plate_t + 2 * extra], center = true);
-
-    // TTP223 copper touch window.
-    translate([touch_center[0], touch_center[1], -extra])
-        cube([14, 14, plate_t + 2 * extra], center = true);
 
     // Rear USB opening. This is intentionally oversized for cable tolerance.
     translate([case_w / 2 - 9, case_d - 4, -extra])
@@ -100,17 +83,17 @@ module control_holes(extra = 1) {
 }
 
 module quota_windows(extra = 1) {
-    // Individual windows keep each RGB pixel visually separated.
+    // Individual top-panel windows keep each RGB pixel visually separated.
     for (i = [0 : quota_led_count - 1]) {
         translate([
             quota_led_start_x + i * quota_led_pitch,
-            -extra,
-            quota_led_center_z - quota_led_window_h / 2
+            quota_led_center_y - quota_led_window_d / 2,
+            -extra
         ])
             cube([
                 quota_led_window_w,
-                wall + 2 * extra,
-                quota_led_window_h
+                quota_led_window_d,
+                plate_t + 2 * extra
             ], center = false);
     }
 }
@@ -121,6 +104,7 @@ module plate() {
         key_holes();
         screw_holes();
         control_holes();
+        quota_windows();
     }
 }
 
@@ -146,7 +130,27 @@ module bottom() {
         translate([case_w / 2 - 10, case_d - 5, 4])
             cube([20, 8, 10], center = false);
 
-        quota_windows();
+    }
+}
+
+module pixel_carrier() {
+    // Thin carrier for 12 individually wired 5 mm-class RGB pixels.
+    carrier_w = (quota_led_count - 1) * quota_led_pitch + quota_led_window_w + 4;
+    carrier_d = 8;
+    carrier_t = 2;
+    carrier_x = quota_led_start_x - 2;
+    carrier_y = quota_led_center_y - carrier_d / 2;
+    difference() {
+        translate([carrier_x, carrier_y, 0])
+            rounded_prism(carrier_w, carrier_d, carrier_t, 1.5);
+        for (i = [0 : quota_led_count - 1]) {
+            translate([
+                quota_led_start_x + i * quota_led_pitch + quota_led_window_w / 2 - 2.8,
+                quota_led_center_y - 2.8,
+                -1
+            ])
+                cube([5.6, 5.6, carrier_t + 2], center = false);
+        }
     }
 }
 
@@ -186,4 +190,6 @@ if (part == "plate") {
     assembly();
 } else if (part == "tolerance") {
     tolerance_coupon();
+} else if (part == "pixel_carrier") {
+    pixel_carrier();
 }

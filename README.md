@@ -7,8 +7,8 @@
 ## 当前方案
 
 - 主控：Arduino Micro，ATmega32U4，5V / 16MHz，Micro-USB
-- 输入：13 键矩阵、工作旋钮、音量旋钮、两轴模拟摇杆、TTP223 触摸层键
-- 输出：USB HID 键盘；前侧 12 灯 quota 灯带显示当前 Agent 剩余用量
+- 输入：13 键矩阵、1 个 EC11 音量旋钮
+- 输出：USB HID 键盘；面板 12 颗独立 RGB 灯显示当前 Agent 剩余用量
 - 外壳：OpenSCAD 参数化建模，PLA/PETG 3D 打印；紧凑布局
 - 固件：Arduino IDE MVP；稳定后迁移到 QMK/Vial
 - 主机端：USB CDC 串口状态测试工具；后续接入各 Agent 的 hooks、CLI 事件或桌面自动化
@@ -29,11 +29,11 @@
 
 1. 阅读 [硬件接线说明](hardware/wiring/README.md)。
 2. 将 [公差件 STL](mechanical/exports/tolerance_coupon.stl) 导入 Bambu Studio，先验证轴孔和 M3 铜螺母配合。
-3. 将 [定位板 STL](mechanical/exports/plate.stl) 和 [底壳 STL](mechanical/exports/bottom.stl) 导入切片器打印；参数见 [打印计划](mechanical/print/PRINT_PLAN.md)。
+3. 将 [灯珠承载条](mechanical/exports/pixel_carrier.stl)、[定位板 STL](mechanical/exports/plate.stl) 和 [底壳 STL](mechanical/exports/bottom.stl) 导入切片器打印；参数见 [打印计划](mechanical/print/PRINT_PLAN.md)。
 4. 也可以用 OpenSCAD 打开 `mechanical/cad/agent_macro.scad`，或运行 `make cad-export` 重新生成 STL。
-5. 打印外壳和定位板，先安装 6 个按键、两个旋钮和 12 颗 RGB 灯中的一小段进行验证。
+5. 打印外壳和定位板，先安装 6 个按键、1 个旋钮和 12 颗 RGB 灯中的一小段进行验证。
 6. 在 Arduino IDE 中打开 `firmware/arduino/agent_macro_mvp/agent_macro_mvp.ino`。
-7. 选择 `Arduino Micro`，上传固件后逐个验证按键、旋钮、摇杆和触摸输入。
+7. 选择 `Arduino Micro`，上传固件后逐个验证按键、旋钮和面板 RGB 灯。
 8. 安装主机端测试工具：
 
    ```bash
@@ -64,8 +64,14 @@
 ### Rev 0.3：紧凑灯效版
 
 - 移除中心指托，缩短外壳尺寸
-- 增加独立音量 EC11 旋钮
+- 增加音量 EC11 旋钮
 - 12 颗独立可编址 RGB 灯按颗排列，支持用量条渐变显示
+
+### Rev 0.4：面板灯和单旋钮版
+
+- 采用 13 个按键 + 1 个音量旋钮的蓝图式布局
+- 移除摇杆、触摸区和多余控制开孔
+- 将 12 颗 RGB 灯移到键盘面板，使用一个数据引脚串联控制
 
 ### Rev 0.3：多 Agent 状态桥
 
