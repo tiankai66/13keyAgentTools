@@ -1,6 +1,6 @@
 # 3D 打印建模
 
-当前使用 OpenSCAD 做参数化 Rev 0.6。模型拆成上、下两块独立面板：先打印公差件，再打印灯珠承载条、上层控制面板和下层主板固定面板。
+当前使用 OpenSCAD 做参数化 Rev 0.7。模型拆成上、下两块独立面板：先打印公差件，再打印灯珠承载条、上层控制面板和下层主板固定面板。
 
 ## 文件
 
@@ -21,7 +21,7 @@
 - 固定方式：M3 螺丝 + 热熔铜螺母。
 - 面板 quota RGB 灯：12 个独立窗口，间距 5.3 mm。
 
-这些数值是 Rev 0.6 的可打印起点，不是最终量产尺寸。当前 Arduino Micro 仍使用 Micro-USB，面板后侧开口同时为未来 USB-C 版本预留尺寸余量。
+这些数值是 Rev 0.7 的可打印起点，不是最终量产尺寸。主控改为 USB-C Arduino Micro 兼容板，右后侧开口约 16 × 7 mm；下单前仍需核对具体兼容板的 USB-C 位置。
 
 ## 导出
 
@@ -31,7 +31,7 @@
 part = "plate";     // plate / bottom / controller_panel / assembly / tolerance / pixel_carrier
 ```
 
-按 `F6` 渲染后导出 STL。当前 Rev 0.6 的 STL 已提交到 `mechanical/exports/`，方便直接下载和导入切片器。为兼容原有链接，`plate.stl` 表示上层面板，`bottom.stl` 表示下层主板固定面板。
+按 `F6` 渲染后导出 STL。当前 Rev 0.7 的 STL 已提交到 `mechanical/exports/`，方便直接下载和导入切片器。为兼容原有链接，`plate.stl` 表示上层面板，`bottom.stl` 表示下层主板固定面板。
 
 如果 OpenSCAD 命令行不可用，可安装脚本依赖后执行：
 
@@ -42,4 +42,4 @@ pip install -r mechanical/tools/requirements.txt
 python mechanical/tools/generate_stl.py --part all
 ```
 
-脚本生成的模型与当前 Rev 0.6 的 OpenSCAD 参数保持一致；修改尺寸时需要同步检查两个源文件。
+脚本生成的模型与当前 Rev 0.7 的 OpenSCAD 参数保持一致；修改尺寸时需要同步检查两个源文件。

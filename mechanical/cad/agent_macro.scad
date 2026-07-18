@@ -1,4 +1,4 @@
-// 13keyAgentTools Rev 0.6
+// 13keyAgentTools Rev 0.7
 // Two-panel layout: controls on the upper panel, Arduino Micro on the lower panel.
 // Export one part at a time by changing `part`.
 
@@ -18,6 +18,8 @@ corner_r = 4.0;
 controller_board_x = 89;
 controller_board_y = 43;
 controller_usb_x = 98;
+controller_usb_opening_w = 16;
+controller_usb_opening_d = 7;
 
 key_pitch = 19.05;
 key_hole = 14.0;
@@ -74,10 +76,13 @@ module screw_holes(extra = 1, height = plate_t + 2) {
 }
 
 module usb_opening(extra = 1, height = plate_t + 2) {
-    // Right-rear relief under the controller area. The current Arduino Micro
-    // uses Micro-USB; the opening also leaves room for a future USB-C variant.
-    translate([controller_usb_x - 9, case_d - 4, -extra])
-        cube([18, 8, height], center = false);
+    // Right-rear Type-C relief under the controller area.
+    translate([
+        controller_usb_x - controller_usb_opening_w / 2,
+        case_d - controller_usb_opening_d / 2,
+        -extra
+    ])
+        cube([controller_usb_opening_w, controller_usb_opening_d, height], center = false);
 }
 
 module control_holes(extra = 1) {

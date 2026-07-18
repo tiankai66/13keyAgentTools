@@ -27,6 +27,8 @@ CORNER_R = 4.0
 CONTROLLER_BOARD_X = 89.0
 CONTROLLER_BOARD_Y = 43.0
 CONTROLLER_USB_X = 98.0
+CONTROLLER_USB_OPENING_W = 16.0
+CONTROLLER_USB_OPENING_D = 7.0
 KEY_PITCH = 19.05
 KEY_HOLE = 14.0
 KEY_ORIGIN = (10.0, 8.0)
@@ -119,9 +121,14 @@ def panel_mount_cutters(height: float) -> list[trimesh.Trimesh]:
 
 
 def usb_opening(height: float) -> trimesh.Trimesh:
-    """Open the right-rear edge for the controller and future USB-C variants."""
+    """Open the right-rear edge for the USB-C controller."""
 
-    return box(18.0, 8.0, height, (CONTROLLER_USB_X, CASE_D, height / 2.0 - 1.0))
+    return box(
+        CONTROLLER_USB_OPENING_W,
+        CONTROLLER_USB_OPENING_D,
+        height,
+        (CONTROLLER_USB_X, CASE_D, height / 2.0 - 1.0),
+    )
 
 
 def top_panel() -> trimesh.Trimesh:

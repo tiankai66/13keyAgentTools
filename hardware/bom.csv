@@ -1,6 +1,6 @@
 category,part,spec,qty,required,notes
-controller,Arduino Micro,ATmega32U4 5V 16MHz Micro-USB with headers,1,yes,Do not substitute ATmega328P or 3.3V/8MHz
-switch,Mechanical switch,MX-compatible or low-profile switch,13,yes,Rev 0.6.1 uses individual 1U positions
+controller,Arduino Micro compatible board,ATmega32U4 5V 16MHz USB-C data interface with headers,1,yes,Board outline about 48x18 mm; do not substitute ATmega328P or 3.3V/8MHz
+switch,Mechanical switch,MX-compatible or low-profile switch,13,yes,Rev 0.7 uses individual 1U positions
 keycap,Keycap,MX-compatible 1U,13,yes,Use 2U visual key only after matrix is stable
 diode,1N4148,Through-hole signal diode,13,yes,One diode per switch
 encoder,EC11,Rotary encoder with push switch,1,yes,Reserved for future system-volume control
@@ -11,4 +11,4 @@ wire,Hook-up wire,26-30 AWG stranded,1 set,yes,Use separate colors for rows and 
 fastener,M3 heat-set insert,Brass insert,4,yes,Tune hole with tolerance coupon
 fastener,M3 screw,M3x12 mm for the 10 mm upper-panel spacers,4,yes,Right-side controller panel uses printed retention blocks; verify engagement after printing
 foot,Silicone feet,Adhesive or press-fit,4,optional,Prevent desk sliding
-power,USB data cable,Micro-USB,1,yes,Use a known data cable
+power,USB data cable,USB-C,1,yes,Use a known data cable; straight plug preferred for the right-rear opening

@@ -6,7 +6,7 @@
 
 ## 当前方案
 
-- 主控：Arduino Micro，ATmega32U4，5V / 16MHz，Micro-USB
+- 主控：Arduino Micro 兼容板，ATmega32U4，5V / 16MHz，USB-C 数据接口
 - 输入：13 键矩阵、1 个 EC11 音量旋钮
 - 输出：USB HID 键盘；面板 12 颗独立 RGB 灯显示当前 Agent 剩余用量
 - 外壳：OpenSCAD 参数化双层面板，PLA/PETG 3D 打印；紧凑布局
@@ -91,6 +91,12 @@
 - Arduino Micro 移到右侧空白区下方，避免与按键矩阵重叠
 - USB 开口改到右后侧，利用现有空白体积，不增加按键区高度
 
+### Rev 0.7：USB-C 主控接口
+
+- Arduino Micro 兼容板改为 USB-C 数据接口
+- 右后侧上、下层面板开口按约 16 × 7 mm 重新导出
+- 引脚、固件和矩阵/RGB 接线保持不变，仅更换主控板接口和 USB-C 数据线
+
 ### Rev 0.3：多 Agent 状态桥
 
 - 主机端接收 Codex、Claude Code、Qoder 等 Agent 的状态
@@ -100,7 +106,7 @@
 ### Rev 1.0：专用 PCB
 
 - 先保留 Arduino Micro 插座或排针
-- 验证无误后再考虑裸 MCU 和 USB-C
+- 验证无误后再考虑裸 MCU 和集成 USB-C
 
 ## 工程原则
 

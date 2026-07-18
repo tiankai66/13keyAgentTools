@@ -1,6 +1,6 @@
 # 项目状态
 
-当前版本：`0.6.1-right-side-controller-mount`
+当前版本：`0.7.0-usbc-controller`
 
 ## 已完成
 
@@ -13,13 +13,13 @@
 - 面板上的 12 颗独立 RGB quota 灯布局
 - 可打印的 12 灯珠承载条，解决逐颗灯珠的面板定位
 - 独立下层主板面板、右侧红框下方的 Arduino Micro 承托架和四角上层支柱
-- Bambu Studio 可导入的 Rev 0.6 双层面板 STL 导出链路
+- Bambu Studio 可导入的 Rev 0.7 USB-C 双层面板 STL 导出链路
 - Arduino IDE MVP 固件骨架
 - 主机端 USB CDC 灯效测试工具
 
 ## 尚未验证
 
-- Rev 0.6.1 两块面板与实际轴体、EC11、面板 RGB 灯和右侧 Arduino Micro 承托架的尺寸配合
+- Rev 0.7 两块面板与实际轴体、EC11、面板 RGB 灯和右侧 USB-C Arduino Micro 承托架的尺寸配合
 - 二极管方向和矩阵扫描
 - Arduino Micro 与所有输入设备同时工作时的电流余量
 - 12 颗 RGB 灯满亮度下的 USB 供电能力
