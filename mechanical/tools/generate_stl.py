@@ -17,8 +17,8 @@ from pathlib import Path
 import trimesh
 
 
-CASE_W = 184.0
-CASE_D = 112.0
+CASE_W = 164.0
+CASE_D = 104.0
 PLATE_T = 3.0
 BOTTOM_H = 18.0
 BOTTOM_T = 3.0
@@ -48,14 +48,12 @@ SCREW_POSITIONS = (
     (7.0, CASE_D - 7.0),
     (CASE_W - 7.0, CASE_D - 7.0),
 )
-FINGER_REST_CENTER = (108.0, 52.0)
-FINGER_REST_D = 36.0
-ACTION_ENCODER = (146.0, 36.0)
-VOLUME_ENCODER = (172.0, 36.0)
-JOYSTICK_CENTER = (146.0, 80.0)
-TOUCH_CENTER = (172.0, 80.0)
+ACTION_ENCODER = (112.0, 34.0)
+VOLUME_ENCODER = (140.0, 34.0)
+JOYSTICK_CENTER = (112.0, 76.0)
+TOUCH_CENTER = (140.0, 76.0)
 QUOTA_LED_COUNT = 12
-QUOTA_LED_START_X = 21.0
+QUOTA_LED_START_X = 14.0
 QUOTA_LED_PITCH = 12.5
 QUOTA_LED_WINDOW_W = 8.0
 QUOTA_LED_WINDOW_H = 5.0
@@ -131,12 +129,7 @@ def plate() -> trimesh.Trimesh:
 
     # Rear USB cable opening, intentionally open through the rear edge.
     cutters.append(box(18.0, 8.0, PLATE_T + 2, (CASE_W / 2.0, CASE_D, PLATE_T / 2.0)))
-    body = difference(base, cutters)
-
-    # Low finger rest with a tactile center point in the protected no-key zone.
-    pad = cylinder(FINGER_REST_D, 0.8, (*FINGER_REST_CENTER, PLATE_T + 0.4))
-    point = cylinder(6.0, 1.4, (*FINGER_REST_CENTER, PLATE_T + 0.8 + 0.7))
-    return union([body, pad, point])
+    return difference(base, cutters)
 
 
 def bottom() -> trimesh.Trimesh:

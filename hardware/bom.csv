@@ -6,7 +6,7 @@ diode,1N4148,Through-hole signal diode,13,yes,One diode per switch
 encoder,EC11,Rotary encoder with push switch,2,yes,One workflow encoder plus one dedicated volume encoder
 joystick,Two-axis analog joystick,VRX/VRY outputs,1,optional,Power from 5V only if output remains within ADC range
 touch,TTP223,Capacitive touch sensor module,1,optional,OUT to A2 and copper/metal touch pad
-rgb,WS2812B or SK6812 LED strip,5V addressable RGB strip with 12 pixels,1,yes,Front quota bar; cap brightness and use a common ground
+rgb,WS2812B or SK6812 RGB pixels,5V individually addressable RGB pixels or a cut 12-pixel strip,12,yes,Front quota bar; chain DIN/DOUT and cap brightness
 passive,Data resistor,330 ohm in series with LED DIN,1,yes,Place close to the first LED
 passive,Electrolytic capacitor,1000 uF 6.3 V or higher across LED 5V/GND,1,yes,Place near the strip power entry
 wire,Hook-up wire,26-30 AWG stranded,1 set,yes,Use separate colors for rows and columns

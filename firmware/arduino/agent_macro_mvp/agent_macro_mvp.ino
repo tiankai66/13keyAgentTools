@@ -1,4 +1,4 @@
-// 13keyAgentTools Rev 0.2
+// 13keyAgentTools Rev 0.3
 // Arduino Micro MVP firmware for a multi-agent macro keyboard.
 
 #include <Keyboard.h>
@@ -281,22 +281,28 @@ void clearRgb() {
 void setQuotaPercent(uint8_t percent) {
 #if ENABLE_RGB
   const uint8_t clamped = percent > 100 ? 100 : percent;
-  const uint8_t lit = (static_cast<uint16_t>(clamped) * RGB_COUNT) / 100;
-  uint8_t red = 0;
-  uint8_t green = 0;
-  uint8_t blue = 0;
-  if (clamped <= 25) {
-    red = 180;
-  } else if (clamped <= 60) {
-    red = 180;
-    green = 100;
+  const uint16_t scaled = static_cast<uint16_t>(clamped) * RGB_COUNT;
+  const uint8_t fullPixels = scaled / 100;
+  const uint8_t partialPercent = scaled % 100;
+  uint8_t red = 220;
+  uint8_t green = 220;
+  const uint8_t blue = 0;
+  if (clamped <= 50) {
+    green = (static_cast<uint16_t>(clamped) * 220) / 50;
   } else {
-    green = 180;
+    red = (static_cast<uint16_t>(100 - clamped) * 220) / 50;
   }
 
   for (uint8_t index = 0; index < RGB_COUNT; index++) {
-    if (index < lit) {
+    if (index < fullPixels) {
       pixels.setPixelColor(index, pixels.Color(red, green, blue));
+    } else if (index == fullPixels && partialPercent > 0) {
+      pixels.setPixelColor(
+        index,
+        pixels.Color(
+          (static_cast<uint16_t>(red) * partialPercent) / 100,
+          (static_cast<uint16_t>(green) * partialPercent) / 100,
+          (static_cast<uint16_t>(blue) * partialPercent) / 100));
     } else {
       pixels.setPixelColor(index, 0);
     }

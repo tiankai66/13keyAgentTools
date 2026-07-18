@@ -1,4 +1,4 @@
-// 13keyAgentTools Rev 0.2
+// 13keyAgentTools Rev 0.3
 // Parametric enclosure for a hand-wired Arduino Micro multi-agent macro keyboard.
 // Export one part at a time by changing `part`.
 
@@ -6,8 +6,8 @@ part = "plate"; // plate / bottom / assembly / tolerance
 
 $fn = 48;
 
-case_w = 184;
-case_d = 112;
+case_w = 164;
+case_d = 104;
 plate_t = 3.0;
 bottom_h = 18.0;
 bottom_t = 3.0;
@@ -18,26 +18,22 @@ key_pitch = 19.05;
 key_hole = 14.0;
 key_origin = [16, 14];
 
-// A protected center finger-rest zone separates the key bank from the controls.
-finger_rest_center = [108, 52];
-finger_rest_d = 36;
-
 // Two EC11 encoders: action/reasoning and dedicated volume control.
-action_encoder = [146, 36];
-volume_encoder = [172, 36];
-joystick_center = [146, 80];
-touch_center = [172, 80];
+action_encoder = [112, 34];
+volume_encoder = [140, 34];
+joystick_center = [112, 76];
+touch_center = [140, 76];
 
-// Twelve front-facing quota windows for a 5V addressable LED strip.
+// Twelve individually addressable RGB pixels arranged as a smooth quota bar.
 quota_led_count = 12;
-quota_led_start_x = 21;
+quota_led_start_x = 14;
 quota_led_pitch = 12.5;
 quota_led_window_w = 8;
 quota_led_window_h = 5;
 quota_led_center_z = 9;
 
 // 4 x 4 electrical matrix with three unused positions.
-// Rev 0.2 keeps 13 individual 1U keys and reserves the right side for controls.
+// Rev 0.3 keeps 13 individual 1U keys and reserves the right side for controls.
 key_positions = [
     [0, 0], [1, 0], [2, 0], [3, 0],
     [0, 1], [1, 1], [2, 1], [3, 1],
@@ -103,16 +99,8 @@ module control_holes(extra = 1) {
         cube([18, 8, 9], center = false);
 }
 
-module finger_rest() {
-    // Low pad plus a small tactile center point. No key switch is inside this zone.
-    translate([finger_rest_center[0], finger_rest_center[1], plate_t])
-        cylinder(d = finger_rest_d, h = 0.8, $fn = 64);
-    translate([finger_rest_center[0], finger_rest_center[1], plate_t + 0.8])
-        cylinder(d = 6, h = 1.4, $fn = 48);
-}
-
 module quota_windows(extra = 1) {
-    // Windows cut through the front wall; mount the LED strip behind them.
+    // Individual windows keep each RGB pixel visually separated.
     for (i = [0 : quota_led_count - 1]) {
         translate([
             quota_led_start_x + i * quota_led_pitch,
@@ -128,14 +116,11 @@ module quota_windows(extra = 1) {
 }
 
 module plate() {
-    union() {
-        difference() {
-            rounded_prism(case_w, case_d, plate_t, corner_r);
-            key_holes();
-            screw_holes();
-            control_holes();
-        }
-        finger_rest();
+    difference() {
+        rounded_prism(case_w, case_d, plate_t, corner_r);
+        key_holes();
+        screw_holes();
+        control_holes();
     }
 }
 
