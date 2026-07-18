@@ -5,6 +5,8 @@
 ## 文件
 
 - `cad/agent_macro.scad`：定位板、底壳、装配预览和公差件。
+- `exports/`：可直接导入 Bambu Studio、PrusaSlicer 或 Cura 的 STL 文件。
+- `tools/generate_stl.py`：无 GUI 环境下的可重复 STL 导出脚本。
 - `print/PRINT_PLAN.md`：切片、打印顺序和验收记录模板。
 
 ## 设计基准
@@ -26,4 +28,15 @@
 part = "plate";     // plate / bottom / assembly / tolerance
 ```
 
-按 `F6` 渲染后导出 STL。导出的 STL 不提交到 Git，建议保存在本地 `mechanical/exports/`。
+按 `F6` 渲染后导出 STL。当前 Rev 0.1 的 STL 已提交到 `mechanical/exports/`，方便直接下载和导入切片器。
+
+如果 OpenSCAD 命令行不可用，可安装脚本依赖后执行：
+
+```bash
+python3 -m venv /tmp/13key-cad-venv
+. /tmp/13key-cad-venv/bin/activate
+pip install -r mechanical/tools/requirements.txt
+python mechanical/tools/generate_stl.py --part all
+```
+
+脚本生成的模型与当前 Rev 0.1 的 OpenSCAD 参数保持一致；修改尺寸时需要同步检查两个源文件。

@@ -12,6 +12,10 @@ __pycache__/
 *.bgcode
 *.tmp
 
+# Versioned printable exports for the current mechanical revision.
+!mechanical/exports/
+!mechanical/exports/*.stl
+
 # Arduino build artifacts
 build/
 *.hex

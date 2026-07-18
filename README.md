@@ -28,11 +28,13 @@
 ## 快速开始
 
 1. 阅读 [硬件接线说明](hardware/wiring/README.md)。
-2. 用 OpenSCAD 打开 `mechanical/cad/agent_macro.scad`，先选择 `part = "tolerance"` 打印公差件。
-3. 打印外壳和定位板，暂时只安装 6 个按键、旋钮和 1 个 RGB 灯进行验证。
-4. 在 Arduino IDE 中打开 `firmware/arduino/agent_macro_mvp/agent_macro_mvp.ino`。
-5. 选择 `Arduino Micro`，上传固件后逐个验证按键、旋钮、摇杆和触摸输入。
-6. 安装主机端测试工具：
+2. 将 [公差件 STL](mechanical/exports/tolerance_coupon.stl) 导入 Bambu Studio，先验证轴孔和 M3 铜螺母配合。
+3. 将 [定位板 STL](mechanical/exports/plate.stl) 和 [底壳 STL](mechanical/exports/bottom.stl) 导入切片器打印；参数见 [打印计划](mechanical/print/PRINT_PLAN.md)。
+4. 也可以用 OpenSCAD 打开 `mechanical/cad/agent_macro.scad`，或运行 `make cad-export` 重新生成 STL。
+5. 打印外壳和定位板，暂时只安装 6 个按键、旋钮和 1 个 RGB 灯进行验证。
+6. 在 Arduino IDE 中打开 `firmware/arduino/agent_macro_mvp/agent_macro_mvp.ino`。
+7. 选择 `Arduino Micro`，上传固件后逐个验证按键、旋钮、摇杆和触摸输入。
+8. 安装主机端测试工具：
 
    ```bash
    python3 -m venv .venv

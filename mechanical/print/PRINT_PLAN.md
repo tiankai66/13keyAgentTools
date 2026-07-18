@@ -1,5 +1,17 @@
 # 打印计划
 
+## Bambu Studio 快速开始
+
+当前可打印文件：
+
+- `../exports/tolerance_coupon.stl`：先打印，用来确定轴孔和 M3 热熔螺母公差。
+- `../exports/plate.stl`：定位板。
+- `../exports/bottom.stl`：底壳。
+
+将 STL 拖入 Bambu Studio 后，先按实际材料选择 PLA 或 PETG 配置，再切片预览。当前文件只包含几何模型，不包含机器专用的 3MF 工程、耗材配置或 G-code。
+
+建议首轮参数：0.4 mm 喷嘴、0.20 mm 层高、3 道墙、15～25% 填充；定位板和公差件平放打印，底壳底面朝打印床。
+
 ## 第 1 批：公差件
 
 在 `mechanical/cad/agent_macro.scad` 中设置：
