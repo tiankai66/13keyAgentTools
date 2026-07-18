@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Bambu Studio compatible STL files for the hand-wired macro keyboard.
+"""Generate Bambu Studio compatible STL files for the two-panel macro keyboard.
 
 The OpenSCAD file remains the design source. This script is a headless export
 path for macOS environments where the OpenSCAD GUI binary cannot render from
@@ -18,20 +18,16 @@ import trimesh
 
 
 CASE_W = 120.0
-CASE_D = 100.0
+CASE_D = 95.0
 PLATE_T = 3.0
-BOTTOM_H = 24.0
-BOTTOM_T = 3.0
-WALL = 3.0
+CONTROLLER_PANEL_T = 4.0
+SPACER_H = 10.0
 CORNER_R = 4.0
 KEY_PITCH = 19.05
 KEY_HOLE = 14.0
-KEY_ORIGIN = (12.0, 15.0)
+KEY_ORIGIN = (10.0, 8.0)
 KEY_POSITIONS = (
     (0, 0),
-    (1, 0),
-    (2, 0),
-    (3, 0),
     (0, 1),
     (1, 1),
     (2, 1),
@@ -40,26 +36,29 @@ KEY_POSITIONS = (
     (1, 2),
     (2, 2),
     (3, 2),
+    (0, 3),
     (1, 3),
+    (2, 3),
+    (3, 3),
 )
 SCREW_POSITIONS = (
-    (7.0, 7.0),
-    (CASE_W - 7.0, 7.0),
-    (7.0, CASE_D - 7.0),
-    (CASE_W - 7.0, CASE_D - 7.0),
+    (5.0, 5.0),
+    (CASE_W - 5.0, 5.0),
+    (5.0, CASE_D - 5.0),
+    (CASE_W - 5.0, CASE_D - 5.0),
 )
-VOLUME_ENCODER = (104.0, 18.0)
+VOLUME_ENCODER = (104.0, 15.0)
 QUOTA_LED_COUNT = 12
-QUOTA_LED_X = 104.0
-QUOTA_LED_START_Y = 31.0
+QUOTA_LED_START_X = 32.0
+QUOTA_LED_Y = 15.0
 QUOTA_LED_PITCH = 5.3
 QUOTA_LED_WINDOW_W = 5.0
 QUOTA_LED_WINDOW_D = 4.5
-PIXEL_CARRIER_W = 8.0
-PIXEL_CARRIER_D = (QUOTA_LED_COUNT - 1) * QUOTA_LED_PITCH + QUOTA_LED_WINDOW_D + 4.0
+PIXEL_CARRIER_W = (QUOTA_LED_COUNT - 1) * QUOTA_LED_PITCH + QUOTA_LED_WINDOW_W + 4.0
+PIXEL_CARRIER_D = 8.0
 PIXEL_CARRIER_T = 2.0
-PIXEL_CARRIER_X = QUOTA_LED_X - PIXEL_CARRIER_W / 2.0
-PIXEL_CARRIER_Y = QUOTA_LED_START_Y - 2.0
+PIXEL_CARRIER_X = QUOTA_LED_START_X - 2.0
+PIXEL_CARRIER_Y = QUOTA_LED_Y - PIXEL_CARRIER_D / 2.0
 
 
 def translation(x: float, y: float, z: float):
@@ -108,7 +107,22 @@ def rounded_prism(width: float, depth: float, height: float, radius: float):
     return union(parts)
 
 
-def plate() -> trimesh.Trimesh:
+def panel_mount_cutters(height: float) -> list[trimesh.Trimesh]:
+    cutters = []
+    for x, y in SCREW_POSITIONS:
+        cutters.append(cylinder(3.4, height, (x, y, height / 2.0 - 1.0)))
+    return cutters
+
+
+def usb_opening(height: float) -> trimesh.Trimesh:
+    """Open the rear edge for the current Micro-USB board and future USB-C variants."""
+
+    return box(18.0, 8.0, height, (CASE_W / 2.0, CASE_D, height / 2.0 - 1.0))
+
+
+def top_panel() -> trimesh.Trimesh:
+    """Upper control panel: 13 keys, horizontal RGB rail, and one EC11."""
+
     base = rounded_prism(CASE_W, CASE_D, PLATE_T, CORNER_R)
     cutters: list[trimesh.Trimesh] = []
 
@@ -117,72 +131,99 @@ def plate() -> trimesh.Trimesh:
         y = KEY_ORIGIN[1] + row * KEY_PITCH + KEY_HOLE / 2.0
         cutters.append(box(KEY_HOLE, KEY_HOLE, PLATE_T + 2, (x, y, PLATE_T / 2.0)))
 
-    for x, y in SCREW_POSITIONS:
-        cutters.append(cylinder(3.4, PLATE_T + 2, (x, y, PLATE_T / 2.0)))
+    cutters.extend(panel_mount_cutters(PLATE_T + 2))
 
     # Dedicated volume EC11 shaft and anti-rotation clearance.
     x, y = VOLUME_ENCODER
     cutters.append(cylinder(8.0, PLATE_T + 2, (x, y, PLATE_T / 2.0)))
-    cutters.append(box(12.0, 16.0, PLATE_T + 2, (x, y - 8.0, PLATE_T / 2.0)))
+    cutters.append(box(12.0, 16.0, PLATE_T + 2, (x, y + 8.0, PLATE_T / 2.0)))
 
-    # Rear USB cable opening, intentionally open through the rear edge.
-    cutters.append(box(18.0, 8.0, PLATE_T + 2, (CASE_W / 2.0, CASE_D, PLATE_T / 2.0)))
+    # Rear-edge cable opening, intentionally oversized for tolerance.
+    cutters.append(usb_opening(PLATE_T + 2))
 
-    # Individual top-panel windows for the RGB pixels.
+    # Twelve horizontal individual RGB windows.
     for index in range(QUOTA_LED_COUNT):
-        x = QUOTA_LED_X
-        y = QUOTA_LED_START_Y + index * QUOTA_LED_PITCH
-        cutters.append(box(QUOTA_LED_WINDOW_W, QUOTA_LED_WINDOW_D, PLATE_T + 2, (x, y, PLATE_T / 2.0)))
+        x = QUOTA_LED_START_X + index * QUOTA_LED_PITCH
+        cutters.append(
+            box(
+                QUOTA_LED_WINDOW_W,
+                QUOTA_LED_WINDOW_D,
+                PLATE_T + 2,
+                (x, QUOTA_LED_Y, PLATE_T / 2.0),
+            )
+        )
     return difference(base, cutters)
 
 
-def bottom() -> trimesh.Trimesh:
-    base = rounded_prism(CASE_W, CASE_D, BOTTOM_H, CORNER_R)
-    cavity = box(
-        CASE_W - 2 * WALL,
-        CASE_D - 2 * WALL,
-        BOTTOM_H + 2,
-        (CASE_W / 2.0, CASE_D / 2.0, BOTTOM_T + (BOTTOM_H + 2) / 2.0),
-    )
-    cutters = [cavity]
+def controller_spacers() -> list[trimesh.Trimesh]:
+    """Four integrated M3 spacer rings for the upper panel."""
 
+    rings = []
     for x, y in SCREW_POSITIONS:
-        cutters.append(cylinder(3.4, BOTTOM_H + 2, (x, y, BOTTOM_H / 2.0)))
+        ring = cylinder(
+            8.0,
+            SPACER_H + 0.1,
+            (x, y, CONTROLLER_PANEL_T - 0.1 + (SPACER_H + 0.1) / 2.0),
+        )
+        hole = cylinder(
+            3.4,
+            SPACER_H + 2.0,
+            (x, y, CONTROLLER_PANEL_T - 0.1 + (SPACER_H + 0.1) / 2.0),
+        )
+        rings.append(difference(ring, [hole]))
+    return rings
 
-    # Rear cable relief through the back wall.
-    cutters.append(box(20.0, 8.0, 10.0, (CASE_W / 2.0, CASE_D, 9.0)))
 
-    shell = difference(base, cutters)
+def micro_board_shelf() -> list[trimesh.Trimesh]:
+    """Shelf and retention blocks for an Arduino Micro rotated vertically."""
 
-    # A generic 48 x 18 mm Arduino Micro shelf under the lower key rows.
-    board_x = 38.0
-    board_y = 72.0
-    shelf = box(52.0, 24.0, 2.0, (board_x + 24.0, board_y + 9.0, BOTTOM_T + 1.0))
-    posts = []
+    board_x = 51.0
+    # Put the USB connector toward the rear edge (y=95) and align it with
+    # the centered rear cable opening.
+    board_y = 43.0
+    shelf = box(
+        22.0,
+        52.0,
+        2.0,
+        (board_x + 9.0, board_y + 24.0, CONTROLLER_PANEL_T + 1.0),
+    )
+    retention_blocks = []
     for x, y in (
-        (board_x - 2.0, board_y - 3.0),
-        (board_x + 47.0, board_y - 3.0),
-        (board_x - 2.0, board_y + 17.0),
-        (board_x + 47.0, board_y + 17.0),
+        (board_x - 2.0, board_y - 2.0),
+        (board_x + 17.0, board_y - 2.0),
+        (board_x - 2.0, board_y + 47.0),
+        (board_x + 17.0, board_y + 47.0),
     ):
-        posts.append(box(3.0, 3.0, 4.0, (x + 1.5, y + 1.5, BOTTOM_T + 4.0)))
-    return union([shell, shelf, *posts])
+        retention_blocks.append(
+            box(3.0, 3.0, 4.0, (x + 1.5, y + 1.5, CONTROLLER_PANEL_T + 4.0))
+        )
+    return [shelf, *retention_blocks]
+
+
+def controller_panel() -> trimesh.Trimesh:
+    """Lower panel with an Arduino Micro shelf and upper-panel spacers."""
+
+    base = rounded_prism(CASE_W, CASE_D, CONTROLLER_PANEL_T, CORNER_R)
+    cutters = panel_mount_cutters(CONTROLLER_PANEL_T + SPACER_H + 2.0)
+    cutters.append(usb_opening(CONTROLLER_PANEL_T + 2.0))
+    shell = difference(base, cutters)
+    return union([shell, *controller_spacers(), *micro_board_shelf()])
 
 
 def pixel_carrier() -> trimesh.Trimesh:
-    """Print a thin carrier for individually wired 5 mm-class RGB pixels."""
+    """Print a thin horizontal carrier for individually wired RGB pixels."""
 
     base = rounded_prism(PIXEL_CARRIER_W, PIXEL_CARRIER_D, PIXEL_CARRIER_T, 1.5)
     cutters: list[trimesh.Trimesh] = []
     for index in range(QUOTA_LED_COUNT):
-        x = QUOTA_LED_X
-        y = QUOTA_LED_START_Y + index * QUOTA_LED_PITCH
+        x = QUOTA_LED_START_X + index * QUOTA_LED_PITCH - PIXEL_CARRIER_X
+        y = QUOTA_LED_Y - PIXEL_CARRIER_Y
         cutters.append(
             box(
                 5.6,
                 5.6,
                 PIXEL_CARRIER_T + 2,
-                (x - PIXEL_CARRIER_X, y - PIXEL_CARRIER_Y, PIXEL_CARRIER_T / 2.0),
+                (x, y, PIXEL_CARRIER_T / 2.0),
             )
         )
     mesh = difference(base, cutters)
@@ -205,9 +246,11 @@ def tolerance_coupon() -> trimesh.Trimesh:
     return difference(base, cutters)
 
 
+# Keep the existing file names so Bambu Studio projects and links continue to
+# work: plate.stl is now the upper panel and bottom.stl is the lower panel.
 BUILDERS = {
-    "plate": plate,
-    "bottom": bottom,
+    "plate": top_panel,
+    "bottom": controller_panel,
     "tolerance_coupon": tolerance_coupon,
     "pixel_carrier": pixel_carrier,
 }

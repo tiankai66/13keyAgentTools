@@ -9,7 +9,7 @@
 - 主控：Arduino Micro，ATmega32U4，5V / 16MHz，Micro-USB
 - 输入：13 键矩阵、1 个 EC11 音量旋钮
 - 输出：USB HID 键盘；面板 12 颗独立 RGB 灯显示当前 Agent 剩余用量
-- 外壳：OpenSCAD 参数化建模，PLA/PETG 3D 打印；紧凑布局
+- 外壳：OpenSCAD 参数化双层面板，PLA/PETG 3D 打印；紧凑布局
 - 固件：Arduino IDE MVP；稳定后迁移到 QMK/Vial
 - 主机端：USB CDC 串口状态测试工具；后续接入各 Agent 的 hooks、CLI 事件或桌面自动化
 
@@ -79,6 +79,12 @@
 - 底壳高度增加到 24 mm
 - Arduino Micro 放在按键区下方的承托架上
 - 右侧只保留窄灯珠轨和音量旋钮，不保留大块空白控制区
+
+### Rev 0.6：双层分体面板版
+
+- 左侧上层面板承载 13 个按键、水平灯带和旋钮
+- 右侧示意的下层面板固定 Arduino Micro
+- 两块 120 × 95 mm 面板用四角 M3 支柱连接，方便打印、焊接和检修
 
 ### Rev 0.3：多 Agent 状态桥
 
