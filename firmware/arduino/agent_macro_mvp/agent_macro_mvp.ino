@@ -1,4 +1,4 @@
-// 13keyAgentTools Rev 0.4
+// 13keyAgentTools Rev 0.5
 // Arduino Micro MVP firmware for a multi-agent macro keyboard.
 
 #include <Keyboard.h>

@@ -12,15 +12,15 @@
 
 ## 设计基准
 
-- 外壳初始尺寸：164 × 104 mm。
+- 外壳初始尺寸：120 × 100 mm。
 - 按键间距：19.05 mm。
 - MX 轴孔初始尺寸：14.0 mm。
 - 上盖厚度：3 mm。
-- 底壳高度：18 mm。
+- 底壳高度：24 mm，内部增加 Arduino Micro 承托架。
 - 固定方式：M3 螺丝 + 热熔铜螺母。
-- 面板 quota RGB 灯：12 个独立窗口，间距 7.5 mm。
+- 面板 quota RGB 灯：12 个独立窗口，间距 5.3 mm。
 
-这些数值是 Rev 0.4 的可打印起点，不是最终量产尺寸。
+这些数值是 Rev 0.5 的可打印起点，不是最终量产尺寸。
 
 ## 导出
 
@@ -30,7 +30,7 @@
 part = "plate";     // plate / bottom / assembly / tolerance / pixel_carrier
 ```
 
-按 `F6` 渲染后导出 STL。当前 Rev 0.4 的 STL 已提交到 `mechanical/exports/`，方便直接下载和导入切片器。
+按 `F6` 渲染后导出 STL。当前 Rev 0.5 的 STL 已提交到 `mechanical/exports/`，方便直接下载和导入切片器。
 
 如果 OpenSCAD 命令行不可用，可安装脚本依赖后执行：
 
@@ -41,4 +41,4 @@ pip install -r mechanical/tools/requirements.txt
 python mechanical/tools/generate_stl.py --part all
 ```
 
-脚本生成的模型与当前 Rev 0.4 的 OpenSCAD 参数保持一致；修改尺寸时需要同步检查两个源文件。
+脚本生成的模型与当前 Rev 0.5 的 OpenSCAD 参数保持一致；修改尺寸时需要同步检查两个源文件。

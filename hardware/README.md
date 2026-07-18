@@ -7,6 +7,7 @@
 - Arduino Micro：ATmega32U4，5V / 16MHz，Micro-USB。
 - 13 个按键使用 4×4 矩阵，因此需要 13 个 1N4148 二极管。
 - 一个 EC11 音量旋钮和 12 颗 quota RGB 灯数据线使用独立引脚。
+- Arduino Micro 横向放在按键区下方的 48 × 18 mm 承托架上，底壳高度为 24 mm。
 - 所有模块共用 GND。
 
 ## 接线顺序

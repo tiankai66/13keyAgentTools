@@ -1,6 +1,6 @@
-# Arduino Micro Rev 0.4 MVP 固件
+# Arduino Micro Rev 0.5 MVP 固件
 
-这是 Rev 0.4 的 Arduino IDE 固件，不依赖定制 PCB。
+这是 Rev 0.5 的 Arduino IDE 固件，不依赖定制 PCB。
 
 ## 上传
 

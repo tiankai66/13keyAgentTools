@@ -17,17 +17,16 @@ from pathlib import Path
 import trimesh
 
 
-CASE_W = 164.0
-CASE_D = 104.0
+CASE_W = 120.0
+CASE_D = 100.0
 PLATE_T = 3.0
-BOTTOM_H = 18.0
+BOTTOM_H = 24.0
 BOTTOM_T = 3.0
 WALL = 3.0
 CORNER_R = 4.0
 KEY_PITCH = 19.05
 KEY_HOLE = 14.0
-KEY_ORIGIN = (14.0, 42.0)
-TOP_KEY_ORIGIN = (14.0, 14.0)
+KEY_ORIGIN = (12.0, 15.0)
 KEY_POSITIONS = (
     (0, 0),
     (1, 0),
@@ -41,6 +40,7 @@ KEY_POSITIONS = (
     (1, 2),
     (2, 2),
     (3, 2),
+    (1, 3),
 )
 SCREW_POSITIONS = (
     (7.0, 7.0),
@@ -48,18 +48,18 @@ SCREW_POSITIONS = (
     (7.0, CASE_D - 7.0),
     (CASE_W - 7.0, CASE_D - 7.0),
 )
-VOLUME_ENCODER = (145.0, 22.0)
+VOLUME_ENCODER = (104.0, 18.0)
 QUOTA_LED_COUNT = 12
-QUOTA_LED_START_X = 39.0
-QUOTA_LED_PITCH = 7.5
+QUOTA_LED_X = 104.0
+QUOTA_LED_START_Y = 31.0
+QUOTA_LED_PITCH = 5.3
 QUOTA_LED_WINDOW_W = 5.0
-QUOTA_LED_WINDOW_D = 5.0
-QUOTA_LED_CENTER_Y = 21.0
-PIXEL_CARRIER_W = (QUOTA_LED_COUNT - 1) * QUOTA_LED_PITCH + QUOTA_LED_WINDOW_W + 4.0
-PIXEL_CARRIER_D = 8.0
+QUOTA_LED_WINDOW_D = 4.5
+PIXEL_CARRIER_W = 8.0
+PIXEL_CARRIER_D = (QUOTA_LED_COUNT - 1) * QUOTA_LED_PITCH + QUOTA_LED_WINDOW_D + 4.0
 PIXEL_CARRIER_T = 2.0
-PIXEL_CARRIER_X = QUOTA_LED_START_X - 2.0
-PIXEL_CARRIER_Y = QUOTA_LED_CENTER_Y - PIXEL_CARRIER_D / 2.0
+PIXEL_CARRIER_X = QUOTA_LED_X - PIXEL_CARRIER_W / 2.0
+PIXEL_CARRIER_Y = QUOTA_LED_START_Y - 2.0
 
 
 def translation(x: float, y: float, z: float):
@@ -117,10 +117,6 @@ def plate() -> trimesh.Trimesh:
         y = KEY_ORIGIN[1] + row * KEY_PITCH + KEY_HOLE / 2.0
         cutters.append(box(KEY_HOLE, KEY_HOLE, PLATE_T + 2, (x, y, PLATE_T / 2.0)))
 
-    top_x = TOP_KEY_ORIGIN[0] + KEY_HOLE / 2.0
-    top_y = TOP_KEY_ORIGIN[1] + KEY_HOLE / 2.0
-    cutters.append(box(KEY_HOLE, KEY_HOLE, PLATE_T + 2, (top_x, top_y, PLATE_T / 2.0)))
-
     for x, y in SCREW_POSITIONS:
         cutters.append(cylinder(3.4, PLATE_T + 2, (x, y, PLATE_T / 2.0)))
 
@@ -134,8 +130,8 @@ def plate() -> trimesh.Trimesh:
 
     # Individual top-panel windows for the RGB pixels.
     for index in range(QUOTA_LED_COUNT):
-        x = QUOTA_LED_START_X + index * QUOTA_LED_PITCH + QUOTA_LED_WINDOW_W / 2.0
-        y = QUOTA_LED_CENTER_Y
+        x = QUOTA_LED_X
+        y = QUOTA_LED_START_Y + index * QUOTA_LED_PITCH
         cutters.append(box(QUOTA_LED_WINDOW_W, QUOTA_LED_WINDOW_D, PLATE_T + 2, (x, y, PLATE_T / 2.0)))
     return difference(base, cutters)
 
@@ -156,7 +152,21 @@ def bottom() -> trimesh.Trimesh:
     # Rear cable relief through the back wall.
     cutters.append(box(20.0, 8.0, 10.0, (CASE_W / 2.0, CASE_D, 9.0)))
 
-    return difference(base, cutters)
+    shell = difference(base, cutters)
+
+    # A generic 48 x 18 mm Arduino Micro shelf under the lower key rows.
+    board_x = 38.0
+    board_y = 72.0
+    shelf = box(52.0, 24.0, 2.0, (board_x + 24.0, board_y + 9.0, BOTTOM_T + 1.0))
+    posts = []
+    for x, y in (
+        (board_x - 2.0, board_y - 3.0),
+        (board_x + 47.0, board_y - 3.0),
+        (board_x - 2.0, board_y + 17.0),
+        (board_x + 47.0, board_y + 17.0),
+    ):
+        posts.append(box(3.0, 3.0, 4.0, (x + 1.5, y + 1.5, BOTTOM_T + 4.0)))
+    return union([shell, shelf, *posts])
 
 
 def pixel_carrier() -> trimesh.Trimesh:
@@ -165,8 +175,8 @@ def pixel_carrier() -> trimesh.Trimesh:
     base = rounded_prism(PIXEL_CARRIER_W, PIXEL_CARRIER_D, PIXEL_CARRIER_T, 1.5)
     cutters: list[trimesh.Trimesh] = []
     for index in range(QUOTA_LED_COUNT):
-        x = QUOTA_LED_START_X + index * QUOTA_LED_PITCH + QUOTA_LED_WINDOW_W / 2.0
-        y = QUOTA_LED_CENTER_Y
+        x = QUOTA_LED_X
+        y = QUOTA_LED_START_Y + index * QUOTA_LED_PITCH
         cutters.append(
             box(
                 5.6,

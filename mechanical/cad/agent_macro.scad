@@ -1,15 +1,15 @@
-// 13keyAgentTools Rev 0.4
-// Parametric enclosure for a hand-wired Arduino Micro multi-agent macro keyboard.
+// 13keyAgentTools Rev 0.5
+// Compact enclosure with an Arduino Micro controller shelf under the keys.
 // Export one part at a time by changing `part`.
 
 part = "plate"; // plate / bottom / assembly / tolerance / pixel_carrier
 
 $fn = 48;
 
-case_w = 164;
-case_d = 104;
+case_w = 120;
+case_d = 100;
 plate_t = 3.0;
-bottom_h = 18.0;
+bottom_h = 24.0;
 bottom_t = 3.0;
 wall = 3.0;
 corner_r = 4.0;
@@ -17,24 +17,24 @@ corner_r = 4.0;
 key_pitch = 19.05;
 key_hole = 14.0;
 // One EC11 encoder, reserved for future system-volume control.
-volume_encoder = [145, 22];
+volume_encoder = [104, 18];
 
-// Twelve individually addressable RGB pixels on the top panel.
+// Twelve individually addressable RGB pixels on a narrow top-panel rail.
 quota_led_count = 12;
-quota_led_start_x = 39;
-quota_led_pitch = 7.5;
+quota_led_x = 104;
+quota_led_start_y = 31;
+quota_led_pitch = 5.3;
 quota_led_window_w = 5;
-quota_led_window_d = 5;
-quota_led_center_y = 21;
+quota_led_window_d = 4.5;
 
-// Twelve keys occupy a compact 4 x 3 grid; the thirteenth key sits in the top row.
+// Compact 4 x 4 matrix with three unused positions: 13 individual 1U keys.
 key_positions = [
     [0, 0], [1, 0], [2, 0], [3, 0],
     [0, 1], [1, 1], [2, 1], [3, 1],
-    [0, 2], [1, 2], [2, 2], [3, 2]
+    [0, 2], [1, 2], [2, 2], [3, 2],
+    [1, 3]
 ];
-key_origin = [14, 42];
-top_key_origin = [14, 14];
+key_origin = [12, 15];
 
 screw_positions = [
     [7, 7],
@@ -59,8 +59,6 @@ module key_holes(extra = 1) {
         ])
             cube([key_hole, key_hole, plate_t + 2 * extra], center = false);
     }
-    translate([top_key_origin[0], top_key_origin[1], -extra])
-        cube([key_hole, key_hole, plate_t + 2 * extra], center = false);
 }
 
 module screw_holes(extra = 1) {
@@ -86,8 +84,8 @@ module quota_windows(extra = 1) {
     // Individual top-panel windows keep each RGB pixel visually separated.
     for (i = [0 : quota_led_count - 1]) {
         translate([
-            quota_led_start_x + i * quota_led_pitch,
-            quota_led_center_y - quota_led_window_d / 2,
+            quota_led_x - quota_led_window_w / 2,
+            quota_led_start_y + i * quota_led_pitch - quota_led_window_d / 2,
             -extra
         ])
             cube([
@@ -109,44 +107,65 @@ module plate() {
 }
 
 module bottom() {
-    difference() {
-        rounded_prism(case_w, case_d, bottom_h, corner_r);
+    union() {
+        difference() {
+            rounded_prism(case_w, case_d, bottom_h, corner_r);
 
-        // Main cavity. Keep a solid bottom and a perimeter wall.
-        translate([wall, wall, bottom_t])
-            cube([
-                case_w - 2 * wall,
-                case_d - 2 * wall,
-                bottom_h
-            ], center = false);
+            // Main cavity. Keep a solid bottom and a perimeter wall.
+            translate([wall, wall, bottom_t])
+                cube([
+                    case_w - 2 * wall,
+                    case_d - 2 * wall,
+                    bottom_h
+                ], center = false);
 
-        // Through holes for M3 hardware.
-        for (p = screw_positions) {
-            translate([p[0], p[1], -1])
-                cylinder(d = 3.4, h = bottom_h + 2);
+            // Through holes for M3 hardware.
+            for (p = screw_positions) {
+                translate([p[0], p[1], -1])
+                    cylinder(d = 3.4, h = bottom_h + 2);
+            }
+
+            // Rear cable relief.
+            translate([case_w / 2 - 10, case_d - 5, 4])
+                cube([20, 8, 10], center = false);
         }
+        micro_board_shelf();
+    }
+}
 
-        // Rear cable relief.
-        translate([case_w / 2 - 10, case_d - 5, 4])
-            cube([20, 8, 10], center = false);
-
+module micro_board_shelf() {
+    // Generic 48 x 18 mm Arduino Micro shelf under the lower key rows.
+    board_x = 38;
+    board_y = 72;
+    shelf_w = 52;
+    shelf_d = 24;
+    translate([board_x - 2, board_y - 3, bottom_t])
+        cube([shelf_w, shelf_d, 2], center = false);
+    for (p = [
+        [board_x - 2, board_y - 3],
+        [board_x + 48 - 1, board_y - 3],
+        [board_x - 2, board_y + 18 - 1],
+        [board_x + 48 - 1, board_y + 18 - 1]
+    ]) {
+        translate([p[0], p[1], bottom_t + 2])
+            cube([3, 3, 4], center = false);
     }
 }
 
 module pixel_carrier() {
-    // Thin carrier for 12 individually wired 5 mm-class RGB pixels.
-    carrier_w = (quota_led_count - 1) * quota_led_pitch + quota_led_window_w + 4;
-    carrier_d = 8;
+    // Thin vertical carrier for 12 individually wired 5 mm-class RGB pixels.
+    carrier_w = 8;
+    carrier_d = (quota_led_count - 1) * quota_led_pitch + quota_led_window_d + 4;
     carrier_t = 2;
-    carrier_x = quota_led_start_x - 2;
-    carrier_y = quota_led_center_y - carrier_d / 2;
+    carrier_x = quota_led_x - carrier_w / 2;
+    carrier_y = quota_led_start_y - 2;
     difference() {
         translate([carrier_x, carrier_y, 0])
             rounded_prism(carrier_w, carrier_d, carrier_t, 1.5);
         for (i = [0 : quota_led_count - 1]) {
             translate([
-                quota_led_start_x + i * quota_led_pitch + quota_led_window_w / 2 - 2.8,
-                quota_led_center_y - 2.8,
+                quota_led_x - 2.8,
+                quota_led_start_y + i * quota_led_pitch - 2.8,
                 -1
             ])
                 cube([5.6, 5.6, carrier_t + 2], center = false);
