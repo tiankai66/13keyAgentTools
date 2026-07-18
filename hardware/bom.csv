@@ -1,0 +1,14 @@
+category,part,spec,qty,required,notes
+controller,Arduino Micro,ATmega32U4 5V 16MHz Micro-USB with headers,1,yes,Do not substitute ATmega328P or 3.3V/8MHz
+switch,Mechanical switch,MX-compatible or low-profile switch,13,yes,Rev 0.1 uses individual 1U positions
+keycap,Keycap,MX-compatible 1U,13,yes,Use 2U visual key only after matrix is stable
+diode,1N4148,Through-hole signal diode,13,yes,One diode per switch
+encoder,EC11,Rotary encoder with push switch,1,yes,Confirm shaft and mounting style before enclosure lock
+joystick,Two-axis analog joystick,VRX/VRY outputs,1,optional,Power from 5V only if output remains within ADC range
+touch,TTP223,Capacitive touch sensor module,1,optional,OUT to A2 and copper/metal touch pad
+rgb,WS2812B or SK6812,5V addressable RGB,6-13,optional,Start with 1 or 6 LEDs and low brightness
+wire,Hook-up wire,26-30 AWG stranded,1 set,yes,Use separate colors for rows and columns
+fastener,M3 heat-set insert,Brass insert,4,yes,Tune hole with tolerance coupon
+fastener,M3 screw,Length based on bottom thickness,4,yes,Do not overtighten printed parts
+foot,Silicone feet,Adhesive or press-fit,4,optional,Prevent desk sliding
+power,USB data cable,Micro-USB,1,yes,Use a known data cable

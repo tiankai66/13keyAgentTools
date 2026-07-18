@@ -1,0 +1,26 @@
+.DS_Store
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+.venv/
+
+# OpenSCAD and slicer exports
+*.stl
+*.3mf
+*.gcode
+*.bgcode
+*.tmp
+
+# Arduino build artifacts
+build/
+*.hex
+*.bin
+*.elf
+*.map
+*.eep
+
+# Local hardware captures
+logs/
+captures/
+photos/private/

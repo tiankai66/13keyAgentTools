@@ -1,0 +1,22 @@
+name: Validate project files
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Python syntax
+        run: python3 -m py_compile host/codexd/codexd.py
+
+      - name: Check required project files
+        run: |
+          test -f README.md
+          test -f mechanical/cad/codexpad.scad
+          test -f hardware/wiring/README.md
+          test -f firmware/arduino/codexpad_mvp/codexpad_mvp.ino
+          test -f host/codexd/codexd.py
