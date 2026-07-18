@@ -13,6 +13,12 @@ controller_panel_t = 4.0;
 spacer_h = 10.0;
 corner_r = 4.0;
 
+// Use the large right-side blank area under the upper panel for the controller.
+// The board is rotated vertically and its USB connector faces the rear edge.
+controller_board_x = 89;
+controller_board_y = 43;
+controller_usb_x = 98;
+
 key_pitch = 19.05;
 key_hole = 14.0;
 // One EC11 encoder, reserved for future system-volume control.
@@ -68,9 +74,9 @@ module screw_holes(extra = 1, height = plate_t + 2) {
 }
 
 module usb_opening(extra = 1, height = plate_t + 2) {
-    // Oversized rear-edge relief. The current Arduino Micro uses Micro-USB;
-    // the opening also leaves room for a future USB-C controller variant.
-    translate([case_w / 2 - 9, case_d - 4, -extra])
+    // Right-rear relief under the controller area. The current Arduino Micro
+    // uses Micro-USB; the opening also leaves room for a future USB-C variant.
+    translate([controller_usb_x - 9, case_d - 4, -extra])
         cube([18, 8, height], center = false);
 }
 
@@ -140,10 +146,8 @@ module controller_panel() {
 module micro_board_shelf() {
     // Generic Arduino Micro mounted vertically: 18 x 48 mm board outline.
     // Retention blocks avoid depending on clone-specific mounting-hole spacing.
-    board_x = 51;
-    // Put the USB connector toward the rear edge (y=95) and align it with
-    // the centered rear cable opening.
-    board_y = 43;
+    board_x = controller_board_x;
+    board_y = controller_board_y;
     shelf_w = 22;
     shelf_d = 52;
     translate([board_x - 2, board_y - 2, controller_panel_t])

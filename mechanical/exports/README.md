@@ -6,7 +6,7 @@
 |---|---|---|
 | `tolerance_coupon.stl` | 轴孔和 M3 热熔螺母公差测试 | 70 × 42 × 4 mm |
 | `plate.stl` | 左侧上层控制面板：13 键、1 个旋钮和水平 12 灯窗 | 120 × 95 × 3 mm |
-| `bottom.stl` | 右侧示意的下层主板固定面板：Arduino Micro 承托架和上层支柱 | 120 × 95 × 14 mm |
+| `bottom.stl` | 右侧红框下方的主板固定面板：Arduino Micro 承托架和上层支柱 | 120 × 95 × 14 mm |
 | `pixel_carrier.stl` | 水平排列的 12 颗独立 RGB 灯珠承载条 | 67.3 × 8 × 2 mm |
 
 打印顺序：先打印 `tolerance_coupon.stl`，再打印 `pixel_carrier.stl` 确认灯珠尺寸，最后打印 `plate.stl` 和 `bottom.stl`。`plate.stl` 是上层面板，`bottom.stl` 是下层主板固定面板，不再是封闭式底壳。

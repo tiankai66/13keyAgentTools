@@ -86,6 +86,11 @@
 - 右侧示意的下层面板固定 Arduino Micro
 - 两块 120 × 95 mm 面板用四角 M3 支柱连接，方便打印、焊接和检修
 
+### Rev 0.6.1：右侧红框主板位
+
+- Arduino Micro 移到右侧空白区下方，避免与按键矩阵重叠
+- USB 开口改到右后侧，利用现有空白体积，不增加按键区高度
+
 ### Rev 0.3：多 Agent 状态桥
 
 - 主机端接收 Codex、Claude Code、Qoder 等 Agent 的状态

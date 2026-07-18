@@ -23,6 +23,10 @@ PLATE_T = 3.0
 CONTROLLER_PANEL_T = 4.0
 SPACER_H = 10.0
 CORNER_R = 4.0
+# Use the large right-side blank area under the upper panel for the controller.
+CONTROLLER_BOARD_X = 89.0
+CONTROLLER_BOARD_Y = 43.0
+CONTROLLER_USB_X = 98.0
 KEY_PITCH = 19.05
 KEY_HOLE = 14.0
 KEY_ORIGIN = (10.0, 8.0)
@@ -115,9 +119,9 @@ def panel_mount_cutters(height: float) -> list[trimesh.Trimesh]:
 
 
 def usb_opening(height: float) -> trimesh.Trimesh:
-    """Open the rear edge for the current Micro-USB board and future USB-C variants."""
+    """Open the right-rear edge for the controller and future USB-C variants."""
 
-    return box(18.0, 8.0, height, (CASE_W / 2.0, CASE_D, height / 2.0 - 1.0))
+    return box(18.0, 8.0, height, (CONTROLLER_USB_X, CASE_D, height / 2.0 - 1.0))
 
 
 def top_panel() -> trimesh.Trimesh:
@@ -177,10 +181,8 @@ def controller_spacers() -> list[trimesh.Trimesh]:
 def micro_board_shelf() -> list[trimesh.Trimesh]:
     """Shelf and retention blocks for an Arduino Micro rotated vertically."""
 
-    board_x = 51.0
-    # Put the USB connector toward the rear edge (y=95) and align it with
-    # the centered rear cable opening.
-    board_y = 43.0
+    board_x = CONTROLLER_BOARD_X
+    board_y = CONTROLLER_BOARD_Y
     shelf = box(
         22.0,
         52.0,

@@ -7,7 +7,7 @@
 - `../exports/tolerance_coupon.stl`：先打印，用来确定轴孔和 M3 热熔螺母公差。
 - `../exports/pixel_carrier.stl`：12 颗独立 RGB 灯珠的定位承载条。
 - `../exports/plate.stl`：左侧上层控制面板，包含 13 键、旋钮和水平灯窗。
-- `../exports/bottom.stl`：右侧示意的下层主板固定面板，包含 Arduino Micro 承托架和 10 mm 上层支柱。
+- `../exports/bottom.stl`：右侧红框下方的主板固定面板，包含 Arduino Micro 承托架和 10 mm 上层支柱。
 
 将 STL 拖入 Bambu Studio 后，先按实际材料选择 PLA 或 PETG 配置，再切片预览。上层面板和下层面板分别打印，装配时用 M3 螺丝连接四角支柱。灯珠承载条建议用普通 PLA/PETG；如果需要更柔和的光线，可在面板孔上方增加半透明薄片。当前文件只包含几何模型，不包含机器专用的 3MF 工程、耗材配置或 G-code。
 
@@ -49,7 +49,7 @@ part = "bottom";
 
 - 上盖不翘曲
 - 13 个轴体均能垂直安装
-- Arduino Micro 能放入下层面板承托架，USB 口与后侧开口对齐
+- Arduino Micro 能放入右侧红框下方的承托架，USB 口与右后侧开口对齐
 - 上层面板与下层面板四角支柱贴合，M3 螺丝不顶住按键和焊点
 - 下层面板不压住 Arduino Micro 的焊点和导线
 - EC11 旋钮操作不干涉
