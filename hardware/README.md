@@ -18,4 +18,4 @@
 4. 接 EC11 音量旋钮，测试旋转和按压。
 5. 最后接 12 颗 quota RGB 灯，限制亮度后再插电脑。
 
-详细引脚见 [wiring/pinout.md](wiring/pinout.md)，采购清单见 [bom.csv](bom.csv)。
+详细引脚见 [wiring/pinout.md](wiring/pinout.md)，采购清单见 [purchase-list.md](purchase-list.md)，结构化物料表见 [bom.csv](bom.csv)。
