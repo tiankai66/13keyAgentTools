@@ -1,16 +1,18 @@
-// 13keyAgentTools
-// Arduino Micro MVP firmware for a hand-wired 4x4 macro-keyboard matrix.
+// 13keyAgentTools Rev 0.2
+// Arduino Micro MVP firmware for a multi-agent macro keyboard.
 
 #include <Keyboard.h>
 #include <stdio.h>
 #include <string.h>
 
-// Set to 1 after installing Adafruit NeoPixel and wiring RGB LEDs.
+// Set to 1 after installing Adafruit NeoPixel and wiring the quota strip.
+#ifndef ENABLE_RGB
 #define ENABLE_RGB 0
+#endif
 
 #if ENABLE_RGB
 #include <Adafruit_NeoPixel.h>
-#define RGB_COUNT 6
+#define RGB_COUNT 12
 Adafruit_NeoPixel pixels(RGB_COUNT, A3, NEO_GRB + NEO_KHZ800);
 #endif
 
@@ -22,6 +24,9 @@ const uint8_t colPins[COL_COUNT] = {8, 9, 10, 11};
 const uint8_t encoderA = 14;
 const uint8_t encoderB = 15;
 const uint8_t encoderSwitch = 16;
+const uint8_t volumeEncoderA = 2;
+const uint8_t volumeEncoderB = 3;
+const uint8_t volumeEncoderSwitch = 12;
 const uint8_t joystickX = A0;
 const uint8_t joystickY = A1;
 const uint8_t touchPin = A2;
@@ -61,6 +66,8 @@ uint32_t matrixChangedAt[ROW_COUNT][COL_COUNT] = {};
 
 uint8_t lastEncoderState = 0;
 bool lastEncoderSwitch = HIGH;
+uint8_t lastVolumeEncoderState = 0;
+bool lastVolumeEncoderSwitch = HIGH;
 bool lastTouchState = LOW;
 uint32_t lastJoystickEventAt = 0;
 int16_t joystickCenterX = 512;
@@ -193,6 +200,30 @@ void scanEncoder() {
   }
 }
 
+void scanVolumeEncoder() {
+  const uint8_t currentState =
+    (digitalRead(volumeEncoderA) << 1) | digitalRead(volumeEncoderB);
+  if (currentState != lastVolumeEncoderState) {
+    const bool clockwise =
+      (lastVolumeEncoderState == 0 && currentState == 1) ||
+      (lastVolumeEncoderState == 1 && currentState == 3) ||
+      (lastVolumeEncoderState == 3 && currentState == 2) ||
+      (lastVolumeEncoderState == 2 && currentState == 0);
+    // Temporary F11/F12 hooks; map these to USB Consumer volume codes later.
+    sendFunction(clockwise ? 12 : 11);
+    lastVolumeEncoderState = currentState;
+  }
+
+  const bool currentSwitch = digitalRead(volumeEncoderSwitch);
+  if (currentSwitch != lastVolumeEncoderSwitch) {
+    delay(3);
+    if (digitalRead(volumeEncoderSwitch) == LOW) {
+      sendFunction(10);
+    }
+    lastVolumeEncoderSwitch = currentSwitch;
+  }
+}
+
 void scanTouch() {
   const bool currentTouch = digitalRead(touchPin);
   if (currentTouch != lastTouchState) {
@@ -247,6 +278,35 @@ void clearRgb() {
 #endif
 }
 
+void setQuotaPercent(uint8_t percent) {
+#if ENABLE_RGB
+  const uint8_t clamped = percent > 100 ? 100 : percent;
+  const uint8_t lit = (static_cast<uint16_t>(clamped) * RGB_COUNT) / 100;
+  uint8_t red = 0;
+  uint8_t green = 0;
+  uint8_t blue = 0;
+  if (clamped <= 25) {
+    red = 180;
+  } else if (clamped <= 60) {
+    red = 180;
+    green = 100;
+  } else {
+    green = 180;
+  }
+
+  for (uint8_t index = 0; index < RGB_COUNT; index++) {
+    if (index < lit) {
+      pixels.setPixelColor(index, pixels.Color(red, green, blue));
+    } else {
+      pixels.setPixelColor(index, 0);
+    }
+  }
+  pixels.show();
+#else
+  (void)percent;
+#endif
+}
+
 void handleSerialCommand() {
   static char buffer[48];
   static uint8_t length = 0;
@@ -259,8 +319,11 @@ void handleSerialCommand() {
       uint16_t red = 0;
       uint16_t green = 0;
       uint16_t blue = 0;
+      uint16_t percent = 0;
       if (sscanf(buffer, "LED %hu %hu %hu %hu", &index, &red, &green, &blue) == 4) {
         setRgb(index, red, green, blue);
+      } else if (sscanf(buffer, "QUOTA %hu", &percent) == 1) {
+        setQuotaPercent(percent > 100 ? 100 : percent);
       } else if (strcmp(buffer, "CLEAR") == 0) {
         clearRgb();
       }
@@ -276,6 +339,9 @@ void setup() {
   pinMode(encoderA, INPUT_PULLUP);
   pinMode(encoderB, INPUT_PULLUP);
   pinMode(encoderSwitch, INPUT_PULLUP);
+  pinMode(volumeEncoderA, INPUT_PULLUP);
+  pinMode(volumeEncoderB, INPUT_PULLUP);
+  pinMode(volumeEncoderSwitch, INPUT_PULLUP);
   pinMode(touchPin, INPUT_PULLUP);
 
   delay(250);
@@ -283,6 +349,9 @@ void setup() {
   joystickCenterY = analogRead(joystickY);
   lastEncoderState = (digitalRead(encoderA) << 1) | digitalRead(encoderB);
   lastEncoderSwitch = digitalRead(encoderSwitch);
+  lastVolumeEncoderState =
+    (digitalRead(volumeEncoderA) << 1) | digitalRead(volumeEncoderB);
+  lastVolumeEncoderSwitch = digitalRead(volumeEncoderSwitch);
   lastTouchState = digitalRead(touchPin);
 
   Keyboard.begin();
@@ -290,7 +359,7 @@ void setup() {
 
 #if ENABLE_RGB
   pixels.begin();
-  pixels.setBrightness(48);
+  pixels.setBrightness(32);
   pixels.clear();
   pixels.show();
 #endif
@@ -299,6 +368,7 @@ void setup() {
 void loop() {
   scanMatrix();
   scanEncoder();
+  scanVolumeEncoder();
   scanTouch();
   scanJoystick();
   handleSerialCommand();

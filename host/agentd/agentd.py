@@ -51,6 +51,12 @@ def rgb_command(index: int, state: str) -> str:
     return f"LED {index} {red} {green} {blue}\n"
 
 
+def quota_command(percent: int) -> str:
+    if not 0 <= percent <= 100:
+        raise ValueError("quota percent must be between 0 and 100")
+    return f"QUOTA {percent}\n"
+
+
 def send(ser, line: str) -> None:
     ser.write(line.encode("ascii"))
     ser.flush()
@@ -72,6 +78,7 @@ def main() -> int:
     parser.add_argument("--port", help="serial port, for example /dev/cu.usbmodemXXXX")
     parser.add_argument("--demo", action="store_true", help="run a six-state RGB demo")
     parser.add_argument("--count", type=int, default=6, help="number of RGB LEDs in demo")
+    parser.add_argument("--quota", type=int, help="set the 12-LED remaining-quota bar and exit")
     args = parser.parse_args()
 
     if args.list:
@@ -87,8 +94,11 @@ def main() -> int:
                 send(ser, line)
                 time.sleep(0.35)
             return 0
+        if args.quota is not None:
+            send(ser, quota_command(args.quota))
+            return 0
 
-        print("Enter `LED <index> <state>`, `CLEAR`, or `quit`.")
+        print("Enter `LED <index> <state>`, `QUOTA <percent>`, `CLEAR`, or `quit`.")
         for raw_line in sys.stdin:
             line = raw_line.strip()
             if line.lower() in {"quit", "exit"}:
@@ -97,6 +107,12 @@ def main() -> int:
                 send(ser, "CLEAR\n")
                 continue
             parts = line.split()
+            if len(parts) == 2 and parts[0].upper() == "QUOTA":
+                try:
+                    send(ser, quota_command(int(parts[1])))
+                except (ValueError, IndexError) as exc:
+                    print(exc)
+                continue
             if len(parts) != 3 or parts[0].upper() != "LED":
                 print("Format: LED <index> <state>")
                 continue

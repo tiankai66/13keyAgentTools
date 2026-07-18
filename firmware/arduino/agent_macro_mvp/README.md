@@ -1,6 +1,6 @@
-# Arduino Micro MVP 固件
+# Arduino Micro Rev 0.2 MVP 固件
 
-这是 Rev 0.1 的 Arduino IDE 固件，不依赖定制 PCB。
+这是 Rev 0.2 的 Arduino IDE 固件，不依赖定制 PCB。
 
 ## 上传
 
@@ -17,19 +17,22 @@
 - C：Ctrl+N / New Chat
 - D：Ctrl+Shift+D / Push-to-talk
 - E～M：F1～F9，留给主机端工作流映射
-- 旋钮：F11/F12，留给 reasoning level 映射
+- 工作旋钮：F11/F12，留给 reasoning level 映射
+- 音量旋钮：F11/F12 临时占位，后续改为 USB Consumer volume up/down
 - 触摸：F10，切换 Layer
 - 摇杆：F1～F4，分别代表 Review、Debug、Refactor、Test
 
-这些快捷键是 MVP 占位符。不同 Agent 终端的实际快捷键应在主机端确认后再固化，固件本身保持通用 HID 宏键盘定位。
+中心指托是纯机械结构，不产生按键事件。以上快捷键是 MVP 占位符；不同 Agent 终端的实际快捷键应在主机端确认后再固化，固件本身保持通用 HID 宏键盘定位。
 
 ## RGB
 
-默认 `ENABLE_RGB` 为 `0`，这样可以先不安装 RGB 库和灯珠测试输入。
+默认 `ENABLE_RGB` 为 `0`，这样可以先不安装 RGB 库和灯带测试输入。
 
 需要灯光时：
 
 1. 安装 Arduino Library Manager 中的 `Adafruit NeoPixel`。
 2. 将 `ENABLE_RGB` 改为 `1`。
-3. 将 `RGB_COUNT` 改为实际灯珠数量。
-4. 使用 `host/agentd/agentd.py` 发送 `LED` 命令。
+3. 当前灯带为 12 颗灯，将 `ENABLE_RGB` 改为 `1`。
+4. 使用 `host/agentd/agentd.py` 发送 `LED` 或 `QUOTA` 命令。
+
+`QUOTA 0`～`QUOTA 100` 会把前侧 12 灯显示为剩余用量条：0% 全灭，100% 全亮；低用量红色，中等黄色，高用量绿色。首版亮度限制为 32/255，避免 USB 供电过载。

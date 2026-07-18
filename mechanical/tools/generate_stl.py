@@ -17,8 +17,8 @@ from pathlib import Path
 import trimesh
 
 
-CASE_W = 148.0
-CASE_D = 106.0
+CASE_W = 184.0
+CASE_D = 112.0
 PLATE_T = 3.0
 BOTTOM_H = 18.0
 BOTTOM_T = 3.0
@@ -26,7 +26,7 @@ WALL = 3.0
 CORNER_R = 4.0
 KEY_PITCH = 19.05
 KEY_HOLE = 14.0
-KEY_ORIGIN = (22.0, 15.0)
+KEY_ORIGIN = (16.0, 14.0)
 KEY_POSITIONS = (
     (0, 0),
     (1, 0),
@@ -48,6 +48,18 @@ SCREW_POSITIONS = (
     (7.0, CASE_D - 7.0),
     (CASE_W - 7.0, CASE_D - 7.0),
 )
+FINGER_REST_CENTER = (108.0, 52.0)
+FINGER_REST_D = 36.0
+ACTION_ENCODER = (146.0, 36.0)
+VOLUME_ENCODER = (172.0, 36.0)
+JOYSTICK_CENTER = (146.0, 80.0)
+TOUCH_CENTER = (172.0, 80.0)
+QUOTA_LED_COUNT = 12
+QUOTA_LED_START_X = 21.0
+QUOTA_LED_PITCH = 12.5
+QUOTA_LED_WINDOW_W = 8.0
+QUOTA_LED_WINDOW_H = 5.0
+QUOTA_LED_CENTER_Z = 9.0
 
 
 def translation(x: float, y: float, z: float):
@@ -108,17 +120,23 @@ def plate() -> trimesh.Trimesh:
     for x, y in SCREW_POSITIONS:
         cutters.append(cylinder(3.4, PLATE_T + 2, (x, y, PLATE_T / 2.0)))
 
-    # EC11 shaft and anti-rotation clearance.
-    cutters.append(cylinder(8.0, PLATE_T + 2, (113.0, 86.0, PLATE_T / 2.0)))
-    cutters.append(box(12.0, 16.0, PLATE_T + 2, (113.0, 78.0, PLATE_T / 2.0)))
+    # Action/reasoning EC11 shaft and anti-rotation clearance.
+    for x, y in (ACTION_ENCODER, VOLUME_ENCODER):
+        cutters.append(cylinder(8.0, PLATE_T + 2, (x, y, PLATE_T / 2.0)))
+        cutters.append(box(12.0, 16.0, PLATE_T + 2, (x, y - 8.0, PLATE_T / 2.0)))
 
     # Generic joystick module and TTP223 touch window.
-    cutters.append(box(19.0, 19.0, PLATE_T + 2, (133.0, 86.0, PLATE_T / 2.0)))
-    cutters.append(box(14.0, 14.0, PLATE_T + 2, (94.0, 86.0, PLATE_T / 2.0)))
+    cutters.append(box(19.0, 19.0, PLATE_T + 2, (*JOYSTICK_CENTER, PLATE_T / 2.0)))
+    cutters.append(box(14.0, 14.0, PLATE_T + 2, (*TOUCH_CENTER, PLATE_T / 2.0)))
 
     # Rear USB cable opening, intentionally open through the rear edge.
     cutters.append(box(18.0, 8.0, PLATE_T + 2, (CASE_W / 2.0, CASE_D, PLATE_T / 2.0)))
-    return difference(base, cutters)
+    body = difference(base, cutters)
+
+    # Low finger rest with a tactile center point in the protected no-key zone.
+    pad = cylinder(FINGER_REST_D, 0.8, (*FINGER_REST_CENTER, PLATE_T + 0.4))
+    point = cylinder(6.0, 1.4, (*FINGER_REST_CENTER, PLATE_T + 0.8 + 0.7))
+    return union([body, pad, point])
 
 
 def bottom() -> trimesh.Trimesh:
@@ -136,6 +154,18 @@ def bottom() -> trimesh.Trimesh:
 
     # Rear cable relief through the back wall.
     cutters.append(box(20.0, 8.0, 10.0, (CASE_W / 2.0, CASE_D, 9.0)))
+
+    # Front-facing quota windows for the addressable LED strip.
+    for index in range(QUOTA_LED_COUNT):
+        x = QUOTA_LED_START_X + index * QUOTA_LED_PITCH + QUOTA_LED_WINDOW_W / 2.0
+        cutters.append(
+            box(
+                QUOTA_LED_WINDOW_W,
+                WALL + 2,
+                QUOTA_LED_WINDOW_H,
+                (x, WALL / 2.0, QUOTA_LED_CENTER_Z),
+            )
+        )
     return difference(base, cutters)
 
 

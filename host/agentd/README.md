@@ -31,7 +31,14 @@ LED 0 thinking
 LED 1 running
 LED 2 waiting
 LED 3 done
+QUOTA 42
 CLEAR
+```
+
+快速设置当前 Agent 的剩余用量：
+
+```bash
+python host/agentd/agentd.py --port /dev/cu.usbmodemXXXX --quota 42
 ```
 
 自动灯效演示：

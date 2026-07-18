@@ -7,9 +7,9 @@
 ## 当前方案
 
 - 主控：Arduino Micro，ATmega32U4，5V / 16MHz，Micro-USB
-- 输入：13 键矩阵、EC11 旋钮、两轴模拟摇杆、TTP223 触摸层键
-- 输出：USB HID 键盘；可选 WS2812B / SK6812 RGB 状态灯
-- 外壳：OpenSCAD 参数化建模，PLA/PETG 3D 打印
+- 输入：13 键矩阵、工作旋钮、音量旋钮、两轴模拟摇杆、TTP223 触摸层键
+- 输出：USB HID 键盘；前侧 12 灯 quota 灯带显示当前 Agent 剩余用量
+- 外壳：OpenSCAD 参数化建模，PLA/PETG 3D 打印；中间有防误触中心指托
 - 固件：Arduino IDE MVP；稳定后迁移到 QMK/Vial
 - 主机端：USB CDC 串口状态测试工具；后续接入各 Agent 的 hooks、CLI 事件或桌面自动化
 
@@ -31,7 +31,7 @@
 2. 将 [公差件 STL](mechanical/exports/tolerance_coupon.stl) 导入 Bambu Studio，先验证轴孔和 M3 铜螺母配合。
 3. 将 [定位板 STL](mechanical/exports/plate.stl) 和 [底壳 STL](mechanical/exports/bottom.stl) 导入切片器打印；参数见 [打印计划](mechanical/print/PRINT_PLAN.md)。
 4. 也可以用 OpenSCAD 打开 `mechanical/cad/agent_macro.scad`，或运行 `make cad-export` 重新生成 STL。
-5. 打印外壳和定位板，暂时只安装 6 个按键、旋钮和 1 个 RGB 灯进行验证。
+5. 打印外壳和定位板，先安装 6 个按键、两个旋钮和 1 个 quota 灯带段进行验证。
 6. 在 Arduino IDE 中打开 `firmware/arduino/agent_macro_mvp/agent_macro_mvp.ino`。
 7. 选择 `Arduino Micro`，上传固件后逐个验证按键、旋钮、摇杆和触摸输入。
 8. 安装主机端测试工具：
@@ -53,10 +53,11 @@
 - Arduino `Keyboard.h`
 - 串口发送测试灯效
 
-### Rev 0.2：完整输入设备
+### Rev 0.2：完整输入设备和用量反馈
 
 - 13 键矩阵和 13 个 1N4148 二极管
-- 摇杆、TTP223、6～13 个 RGB 灯
+- 工作旋钮、音量旋钮、摇杆、TTP223
+- 中心指托和前侧 12 灯 quota 灯带
 - PETG 外壳和底壳
 - Accept / Reject 使用长按保护
 

@@ -1,4 +1,4 @@
-# Rev 0.1 引脚表
+# Rev 0.2 引脚表
 
 以下是 Arduino Micro 的 Arduino 引脚命名。`A0`～`A3` 既可以作模拟输入，也可以作为数字输入/输出；本项目按具体功能使用。
 
@@ -15,10 +15,22 @@
 | Encoder A | D14 / MISO | 输入上拉 | SPI 标签不影响普通 GPIO 使用 |
 | Encoder B | D15 / SCK | 输入上拉 | SPI 标签不影响普通 GPIO 使用 |
 | Encoder push | D16 / MOSI | 输入上拉 | 旋钮按下 |
+| Volume encoder A | D2 | 输入上拉 | 音量旋转 |
+| Volume encoder B | D3 | 输入上拉 | 音量旋转 |
+| Volume encoder push | D12 | 输入上拉 | 音量旋钮按下 |
 | Joystick X | A0 | 模拟输入 | ADC |
 | Joystick Y | A1 | 模拟输入 | ADC |
 | Touch OUT | A2 | 输入上拉 | TTP223 数字输出 |
-| RGB DIN | A3 | 输出 | WS2812B / SK6812 数据 |
+| Quota LED strip DIN | A3 | 输出 | 12 灯 WS2812B / SK6812 灯带数据 |
+
+## Rev 0.2 外壳布局
+
+```text
+[ 13 键矩阵 ] [ 中心指托/定位点 ] [ 工作旋钮 ][ 音量旋钮 ]
+[  前侧 12 灯 quota 用量灯带窗口                         ]
+```
+
+中心指托是纯机械区域，不接 GPIO；音量旋钮使用独立的 D2/D3/D12。前侧灯带使用 A3，按灯珠顺序从左到右显示剩余用量。
 
 ## 矩阵位置
 

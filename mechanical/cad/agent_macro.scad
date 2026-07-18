@@ -1,13 +1,13 @@
-// 13keyAgentTools Rev 0.1
-// Parametric first-pass enclosure for a hand-wired Arduino Micro macro keyboard.
+// 13keyAgentTools Rev 0.2
+// Parametric enclosure for a hand-wired Arduino Micro multi-agent macro keyboard.
 // Export one part at a time by changing `part`.
 
 part = "plate"; // plate / bottom / assembly / tolerance
 
 $fn = 48;
 
-case_w = 148;
-case_d = 106;
+case_w = 184;
+case_d = 112;
 plate_t = 3.0;
 bottom_h = 18.0;
 bottom_t = 3.0;
@@ -16,10 +16,28 @@ corner_r = 4.0;
 
 key_pitch = 19.05;
 key_hole = 14.0;
-key_origin = [22, 15];
+key_origin = [16, 14];
+
+// A protected center finger-rest zone separates the key bank from the controls.
+finger_rest_center = [108, 52];
+finger_rest_d = 36;
+
+// Two EC11 encoders: action/reasoning and dedicated volume control.
+action_encoder = [146, 36];
+volume_encoder = [172, 36];
+joystick_center = [146, 80];
+touch_center = [172, 80];
+
+// Twelve front-facing quota windows for a 5V addressable LED strip.
+quota_led_count = 12;
+quota_led_start_x = 21;
+quota_led_pitch = 12.5;
+quota_led_window_w = 8;
+quota_led_window_h = 5;
+quota_led_center_z = 9;
 
 // 4 x 4 electrical matrix with three unused positions.
-// Rev 0.1 uses 13 individual 1U keys. A 2U visual key can be added later.
+// Rev 0.2 keeps 13 individual 1U keys and reserves the right side for controls.
 key_positions = [
     [0, 0], [1, 0], [2, 0], [3, 0],
     [0, 1], [1, 1], [2, 1], [3, 1],
@@ -60,18 +78,24 @@ module screw_holes(extra = 1) {
 }
 
 module control_holes(extra = 1) {
-    // EC11 shaft and anti-rotation clearance.
-    translate([113, 86, -extra])
+    // Action/reasoning EC11 shaft and anti-rotation clearance.
+    translate([action_encoder[0], action_encoder[1], -extra])
         cylinder(d = 8.0, h = plate_t + 2 * extra);
-    translate([113, 78, -extra])
+    translate([action_encoder[0], action_encoder[1] - 8, -extra])
+        cube([12, 16, plate_t + 2 * extra], center = true);
+
+    // Dedicated volume EC11 shaft and anti-rotation clearance.
+    translate([volume_encoder[0], volume_encoder[1], -extra])
+        cylinder(d = 8.0, h = plate_t + 2 * extra);
+    translate([volume_encoder[0], volume_encoder[1] - 8, -extra])
         cube([12, 16, plate_t + 2 * extra], center = true);
 
     // Generic 2-axis joystick keep-out. Tune after buying the actual module.
-    translate([133, 86, -extra])
+    translate([joystick_center[0], joystick_center[1], -extra])
         cube([19, 19, plate_t + 2 * extra], center = true);
 
     // TTP223 copper touch window.
-    translate([94, 86, -extra])
+    translate([touch_center[0], touch_center[1], -extra])
         cube([14, 14, plate_t + 2 * extra], center = true);
 
     // Rear USB opening. This is intentionally oversized for cable tolerance.
@@ -79,12 +103,39 @@ module control_holes(extra = 1) {
         cube([18, 8, 9], center = false);
 }
 
+module finger_rest() {
+    // Low pad plus a small tactile center point. No key switch is inside this zone.
+    translate([finger_rest_center[0], finger_rest_center[1], plate_t])
+        cylinder(d = finger_rest_d, h = 0.8, $fn = 64);
+    translate([finger_rest_center[0], finger_rest_center[1], plate_t + 0.8])
+        cylinder(d = 6, h = 1.4, $fn = 48);
+}
+
+module quota_windows(extra = 1) {
+    // Windows cut through the front wall; mount the LED strip behind them.
+    for (i = [0 : quota_led_count - 1]) {
+        translate([
+            quota_led_start_x + i * quota_led_pitch,
+            -extra,
+            quota_led_center_z - quota_led_window_h / 2
+        ])
+            cube([
+                quota_led_window_w,
+                wall + 2 * extra,
+                quota_led_window_h
+            ], center = false);
+    }
+}
+
 module plate() {
-    difference() {
-        rounded_prism(case_w, case_d, plate_t, corner_r);
-        key_holes();
-        screw_holes();
-        control_holes();
+    union() {
+        difference() {
+            rounded_prism(case_w, case_d, plate_t, corner_r);
+            key_holes();
+            screw_holes();
+            control_holes();
+        }
+        finger_rest();
     }
 }
 
@@ -109,6 +160,8 @@ module bottom() {
         // Rear cable relief.
         translate([case_w / 2 - 10, case_d - 5, 4])
             cube([20, 8, 10], center = false);
+
+        quota_windows();
     }
 }
 

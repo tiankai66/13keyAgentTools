@@ -1,4 +1,4 @@
-# USB CDC 状态协议 Rev 0.1
+# USB CDC 状态协议 Rev 0.2
 
 Arduino Micro 的 `Serial` 对象对应 USB CDC 虚拟串口。每条命令以换行结束。
 
@@ -19,6 +19,20 @@ LED 0 0 64 255
 ```text
 CLEAR
 ```
+
+## 设置剩余用量条
+
+```text
+QUOTA <percent>
+```
+
+例如：
+
+```text
+QUOTA 42
+```
+
+当前 Rev 0.2 使用前侧 12 颗灯作为当前 Agent 的剩余用量条：0% 全灭，100% 全亮。颜色按剩余量显示为红色、黄色或绿色；后续可扩展为多个 Agent 分段显示。
 
 ## 设计边界
 
