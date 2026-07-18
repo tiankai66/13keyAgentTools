@@ -1,5 +1,5 @@
-// CodexPad / 13keyAgentTools
-// Arduino Micro MVP firmware for a hand-wired 4x4 matrix.
+// 13keyAgentTools
+// Arduino Micro MVP firmware for a hand-wired 4x4 macro-keyboard matrix.
 
 #include <Keyboard.h>
 #include <stdio.h>
@@ -82,7 +82,7 @@ void sendCombo(uint8_t modifier, uint8_t key) {
 
 void sendFunction(uint8_t functionNumber) {
   // Arduino Keyboard defines KEY_F1..KEY_F12. Keep function keys as
-  // temporary host-side workflow hooks until Codex shortcuts are finalized.
+  // Temporary host-side workflow hooks until per-agent shortcuts are configured.
   switch (functionNumber) {
     case 1: tapKey(KEY_F1); break;
     case 2: tapKey(KEY_F2); break;

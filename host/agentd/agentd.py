@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Small USB CDC RGB test bridge for CodexPad Rev 0.1."""
+"""Small USB CDC RGB test bridge for a multi-agent macro keyboard."""
 
 from __future__ import annotations
 
@@ -25,7 +25,7 @@ def load_serial():
         from serial.tools import list_ports
     except ImportError as exc:
         raise SystemExit(
-            "pyserial is required; run: pip install -r host/codexd/requirements.txt"
+            "pyserial is required; run: pip install -r host/agentd/requirements.txt"
         ) from exc
     return serial, list_ports
 

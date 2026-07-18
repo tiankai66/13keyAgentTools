@@ -1,5 +1,5 @@
-// CodexPad / 13keyAgentTools Rev 0.1
-// Parametric first-pass enclosure for a hand-wired Arduino Micro macro pad.
+// 13keyAgentTools Rev 0.1
+// Parametric first-pass enclosure for a hand-wired Arduino Micro macro keyboard.
 // Export one part at a time by changing `part`.
 
 part = "plate"; // plate / bottom / assembly / tolerance

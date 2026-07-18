@@ -2,7 +2,7 @@
 
 ## 第 1 批：公差件
 
-在 `mechanical/cad/codexpad.scad` 中设置：
+在 `mechanical/cad/agent_macro.scad` 中设置：
 
 ```scad
 part = "tolerance";

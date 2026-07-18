@@ -1,8 +1,8 @@
 # 13keyAgentTools
 
-一个面向 Codex / Claude Code 等 coding agent 的 13 键桌面控制器。
+一个面向 Codex、Claude Code、Qoder 等终端工具的开源宏键盘。它本质上是一个可编程宏按键设备，通过标准 USB HID 和可选 USB CDC 与不同 Agent 工作流配合。
 
-本项目采用“3D 打印外壳 + Arduino Micro 手焊 + 可替换固件”的第一版路线，不要求先设计定制 PCB。目标是先做出可用的 Agent 控制器，再逐步迭代到专用 PCB、RGB 状态同步和更完整的软件配置界面。
+本项目采用“3D 打印外壳 + Arduino Micro 手焊 + 可替换固件”的第一版路线，不要求先设计定制 PCB。目标是先做出可靠的通用宏键盘，再逐步增加多 Agent 状态同步、配置工具和可选专用 PCB。
 
 ## 当前方案
 
@@ -11,7 +11,7 @@
 - 输出：USB HID 键盘；可选 WS2812B / SK6812 RGB 状态灯
 - 外壳：OpenSCAD 参数化建模，PLA/PETG 3D 打印
 - 固件：Arduino IDE MVP；稳定后迁移到 QMK/Vial
-- 主机端：USB CDC 串口状态测试工具；后续接入 Codex hooks
+- 主机端：USB CDC 串口状态测试工具；后续接入各 Agent 的 hooks、CLI 事件或桌面自动化
 
 ## 目录
 
@@ -28,17 +28,17 @@
 ## 快速开始
 
 1. 阅读 [硬件接线说明](hardware/wiring/README.md)。
-2. 用 OpenSCAD 打开 `mechanical/cad/codexpad.scad`，先选择 `part = "tolerance"` 打印公差件。
+2. 用 OpenSCAD 打开 `mechanical/cad/agent_macro.scad`，先选择 `part = "tolerance"` 打印公差件。
 3. 打印外壳和定位板，暂时只安装 6 个按键、旋钮和 1 个 RGB 灯进行验证。
-4. 在 Arduino IDE 中打开 `firmware/arduino/codexpad_mvp/codexpad_mvp.ino`。
+4. 在 Arduino IDE 中打开 `firmware/arduino/agent_macro_mvp/agent_macro_mvp.ino`。
 5. 选择 `Arduino Micro`，上传固件后逐个验证按键、旋钮、摇杆和触摸输入。
 6. 安装主机端测试工具：
 
    ```bash
    python3 -m venv .venv
    . .venv/bin/activate
-   pip install -r host/codexd/requirements.txt
-   python host/codexd/codexd.py --list
+   pip install -r host/agentd/requirements.txt
+   python host/agentd/agentd.py --list
    ```
 
 ## 版本路线
@@ -58,9 +58,9 @@
 - PETG 外壳和底壳
 - Accept / Reject 使用长按保护
 
-### Rev 0.3：Agent 状态桥
+### Rev 0.3：多 Agent 状态桥
 
-- 主机端接收 Codex CLI 状态
+- 主机端接收 Codex、Claude Code、Qoder 等 Agent 的状态
 - Raw HID 或 USB CDC 状态协议
 - 每个 Agent 独立颜色和等待/运行/完成状态
 
@@ -74,7 +74,7 @@
 - 每个硬件修改先更新 `hardware/wiring/` 和 BOM。
 - 每次打印保留耗材、层高、尺寸偏差和照片记录。
 - 每次固件修改记录在 `docs/ITERATION_LOG.md`。
-- 不把 OpenAI、Codex、Work Louder 的商标或图标作为项目品牌或商品标识。
+- 不把 OpenAI、Anthropic、Qoder、Work Louder 等商标或图标作为项目品牌或商品标识。
 
 ## 许可证
 

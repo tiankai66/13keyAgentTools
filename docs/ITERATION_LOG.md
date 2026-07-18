@@ -11,6 +11,6 @@
 
 ### 下一步
 
-- 打印 `mechanical/cad/codexpad.scad` 的 `tolerance` 部件。
+- 打印 `mechanical/cad/agent_macro.scad` 的 `tolerance` 部件。
 - 采购并测试 6 个按键、1 个 EC11、1 个 Arduino Micro。
 - 在没有 RGB 的情况下完成矩阵和旋钮输入验证。

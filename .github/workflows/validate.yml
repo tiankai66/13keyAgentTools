@@ -11,12 +11,12 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Check Python syntax
-        run: python3 -m py_compile host/codexd/codexd.py
+        run: python3 -m py_compile host/agentd/agentd.py
 
       - name: Check required project files
         run: |
           test -f README.md
-          test -f mechanical/cad/codexpad.scad
+          test -f mechanical/cad/agent_macro.scad
           test -f hardware/wiring/README.md
-          test -f firmware/arduino/codexpad_mvp/codexpad_mvp.ino
-          test -f host/codexd/codexd.py
+          test -f firmware/arduino/agent_macro_mvp/agent_macro_mvp.ino
+          test -f host/agentd/agentd.py

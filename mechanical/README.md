@@ -4,7 +4,7 @@
 
 ## 文件
 
-- `cad/codexpad.scad`：定位板、底壳、装配预览和公差件。
+- `cad/agent_macro.scad`：定位板、底壳、装配预览和公差件。
 - `print/PRINT_PLAN.md`：切片、打印顺序和验收记录模板。
 
 ## 设计基准

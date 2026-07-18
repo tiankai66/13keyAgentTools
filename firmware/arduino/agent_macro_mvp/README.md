@@ -5,7 +5,7 @@
 ## 上传
 
 1. 安装 Arduino IDE。
-2. 打开 `codexpad_mvp.ino`。
+2. 打开 `agent_macro_mvp.ino`。
 3. 选择 `Tools > Board > Arduino Micro`。
 4. 选择对应串口并上传。
 5. 如果上传时端口消失，快速按两次 Arduino Micro 的 Reset，再选择 Bootloader 端口。
@@ -21,7 +21,7 @@
 - 触摸：F10，切换 Layer
 - 摇杆：F1～F4，分别代表 Review、Debug、Refactor、Test
 
-这些快捷键是 MVP 占位符。Codex App 或 Codex CLI 的实际快捷键应在主机端确认后再固化。
+这些快捷键是 MVP 占位符。不同 Agent 终端的实际快捷键应在主机端确认后再固化，固件本身保持通用 HID 宏键盘定位。
 
 ## RGB
 
@@ -32,4 +32,4 @@
 1. 安装 Arduino Library Manager 中的 `Adafruit NeoPixel`。
 2. 将 `ENABLE_RGB` 改为 `1`。
 3. 将 `RGB_COUNT` 改为实际灯珠数量。
-4. 使用 `host/codexd/codexd.py` 发送 `LED` 命令。
+4. 使用 `host/agentd/agentd.py` 发送 `LED` 命令。
