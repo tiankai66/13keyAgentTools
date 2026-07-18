@@ -3,7 +3,7 @@ controller,Arduino Micro compatible board,ATmega32U4 5V 16MHz USB-C data interfa
 switch,Mechanical switch,MX-compatible or low-profile switch,13,yes,Rev 0.7 uses individual 1U positions
 keycap,Keycap,MX-compatible 1U,13,yes,Use 2U visual key only after matrix is stable
 diode,1N4148,Through-hole signal diode,13,yes,One diode per switch
-encoder,EC11,Rotary encoder with push switch,1,yes,Reserved for future system-volume control
+encoder,EC11 vertical,5-pin panel-mount rotary encoder with push switch,1,yes,6 mm shaft; vertical axis through the 3 mm upper panel; do not buy horizontal/side-mount type
 rgb,WS2812B or SK6812 RGB pixels,5V individually addressable RGB pixels or a cut 12-pixel strip,12,yes,Panel quota bar; chain DIN/DOUT and cap brightness
 passive,Data resistor,330 ohm in series with LED DIN,1,yes,Place close to the first LED
 passive,Electrolytic capacitor,1000 uF 6.3 V or higher across LED 5V/GND,1,yes,Place near the strip power entry

@@ -132,7 +132,7 @@ def usb_opening(height: float) -> trimesh.Trimesh:
 
 
 def top_panel() -> trimesh.Trimesh:
-    """Upper control panel: 13 keys, horizontal RGB rail, and one EC11."""
+    """Upper control panel: 13 keys, horizontal RGB rail, and one vertical EC11."""
 
     base = rounded_prism(CASE_W, CASE_D, PLATE_T, CORNER_R)
     cutters: list[trimesh.Trimesh] = []

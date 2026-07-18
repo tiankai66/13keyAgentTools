@@ -23,7 +23,8 @@ controller_usb_opening_d = 7;
 
 key_pitch = 19.05;
 key_hole = 14.0;
-// One EC11 encoder, reserved for future system-volume control.
+// One vertical EC11 encoder, reserved for future system-volume control.
+// The shaft is perpendicular to the upper panel; the body is below the panel.
 volume_encoder = [104, 15];
 
 // Twelve individually addressable RGB pixels on a horizontal top-panel rail.
