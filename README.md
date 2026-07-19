@@ -29,7 +29,7 @@
 
 1. 先阅读面向新手的 [硬件装配指南](docs/BEGINNER_BUILD_GUIDE.md)，再阅读 [硬件接线说明](hardware/wiring/README.md)。
 2. 将 [公差件 STL](mechanical/exports/tolerance_coupon.stl) 导入 Bambu Studio，先验证轴孔和 M3 铜螺母配合。
-3. 将 [灯珠承载条](mechanical/exports/pixel_carrier.stl)、[定位板 STL](mechanical/exports/plate.stl) 和 [底壳 STL](mechanical/exports/bottom.stl) 导入切片器打印；参数见 [打印计划](mechanical/print/PRINT_PLAN.md)。
+3. 将 [灯珠承载条](mechanical/exports/pixel_carrier.stl)、[主板透明窗](mechanical/exports/window_lens.stl)、[定位板 STL](mechanical/exports/plate.stl) 和 [下层面板 STL](mechanical/exports/bottom.stl) 导入切片器打印；参数见 [打印计划](mechanical/print/PRINT_PLAN.md)。
 4. 也可以用 OpenSCAD 打开 `mechanical/cad/agent_macro.scad`，或运行 `make cad-export` 重新生成 STL。
 5. 打印外壳和定位板，先安装 6 个按键、1 个旋钮和 12 颗 RGB 灯中的一小段进行验证。
 6. 在 Arduino IDE 中打开 `firmware/arduino/agent_macro_mvp/agent_macro_mvp.ino`。
@@ -96,6 +96,12 @@
 - Arduino Micro 兼容板改为 USB-C 数据接口
 - 右后侧上、下层面板开口按约 16 × 7 mm 重新导出
 - 引脚、固件和矩阵/RGB 接线保持不变，仅更换主控板接口和 USB-C 数据线
+
+### Rev 0.8：前侧供电和主板观察窗
+
+- USB-C 入口调整到图示前侧上边缘，音量旋钮保持在下方
+- 右侧主板区域增加透明观察窗
+- 13 个按键整体向内收，增加与四角 M3 螺丝的安全距离
 
 ### Rev 0.3：多 Agent 状态桥
 

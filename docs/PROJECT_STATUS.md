@@ -1,6 +1,6 @@
 # 项目状态
 
-当前版本：`0.7.0-usbc-controller`
+当前版本：`0.8.0-front-power-inspection-window`
 
 ## 已完成
 
@@ -13,7 +13,8 @@
 - 面板上的 12 颗独立 RGB quota 灯布局
 - 可打印的 12 灯珠承载条，解决逐颗灯珠的面板定位
 - 独立下层主板面板、右侧红框下方的 Arduino Micro 承托架和四角上层支柱
-- Bambu Studio 可导入的 Rev 0.7 USB-C 双层面板 STL 导出链路
+- Bambu Studio 可导入的 Rev 0.8 USB-C 双层面板 STL 导出链路
+- 前侧 USB-C 入口、主板透明观察窗和按键/螺丝安全间距优化
 - Arduino IDE MVP 固件骨架
 - 主机端 USB CDC 灯效测试工具
 

@@ -2,7 +2,7 @@
 // Two-panel layout: controls on the upper panel, Arduino Micro on the lower panel.
 // Export one part at a time by changing `part`.
 
-part = "plate"; // plate / bottom / controller_panel / assembly / tolerance / pixel_carrier
+part = "plate"; // plate / bottom / controller_panel / assembly / tolerance / pixel_carrier / window_lens
 
 $fn = 48;
 
@@ -14,12 +14,22 @@ spacer_h = 10.0;
 corner_r = 4.0;
 
 // Use the large right-side blank area under the upper panel for the controller.
-// The board is rotated vertically and its USB connector faces the rear edge.
+// The board is rotated vertically and its USB-C connector faces the front edge
+// shown at the top of the panel layout.
 controller_board_x = 89;
 controller_board_y = 43;
 controller_usb_x = 98;
 controller_usb_opening_w = 16;
 controller_usb_opening_d = 7;
+
+// Clear inspection window above the controller board.
+controller_window_x = 98;
+controller_window_y = 65;
+controller_window_w = 24;
+controller_window_d = 50;
+window_lens_t = 1.5;
+window_lens_w = 23.4;
+window_lens_d = 49.4;
 
 key_pitch = 19.05;
 key_hole = 14.0;
@@ -42,7 +52,8 @@ key_positions = [
     [0, 2], [1, 2], [2, 2], [3, 2],
     [0, 3], [1, 3], [2, 3], [3, 3]
 ];
-key_origin = [10, 8];
+// Inset the key field so the top-left key is not crowded by the M3 corner screw.
+key_origin = [12, 10];
 
 screw_positions = [
     [5, 5],
@@ -77,13 +88,33 @@ module screw_holes(extra = 1, height = plate_t + 2) {
 }
 
 module usb_opening(extra = 1, height = plate_t + 2) {
-    // Right-rear Type-C relief under the controller area.
+    // Front-edge Type-C relief under the controller area.
     translate([
         controller_usb_x - controller_usb_opening_w / 2,
         case_d - controller_usb_opening_d / 2,
         -extra
     ])
         cube([controller_usb_opening_w, controller_usb_opening_d, height], center = false);
+}
+
+module controller_window(extra = 1) {
+    // Through-window for a clear acrylic or transparent PETG lens.
+    translate([
+        controller_window_x - controller_window_w / 2,
+        controller_window_y - controller_window_d / 2,
+        -extra
+    ])
+        rounded_prism(controller_window_w, controller_window_d, plate_t + 2 * extra, 2);
+}
+
+module window_lens() {
+    // Optional clear PETG lens; laser-cut acrylic is preferred for clarity.
+    translate([
+        controller_window_x - window_lens_w / 2,
+        controller_window_y - window_lens_d / 2,
+        0
+    ])
+        rounded_prism(window_lens_w, window_lens_d, window_lens_t, 1.5);
 }
 
 module control_holes(extra = 1) {
@@ -119,6 +150,7 @@ module plate() {
         screw_holes();
         control_holes();
         quota_windows();
+        controller_window();
     }
 }
 
@@ -140,7 +172,7 @@ module controller_panel() {
         difference() {
             rounded_prism(case_w, case_d, controller_panel_t, corner_r);
 
-            // Through holes and rear USB cable relief.
+            // Through holes and front USB-C cable relief.
             screw_holes(height = controller_panel_t + spacer_h + 2);
             usb_opening(height = controller_panel_t + 2);
         }
@@ -233,4 +265,6 @@ if (part == "plate") {
     tolerance_coupon();
 } else if (part == "pixel_carrier") {
     pixel_carrier();
+} else if (part == "window_lens") {
+    window_lens();
 }

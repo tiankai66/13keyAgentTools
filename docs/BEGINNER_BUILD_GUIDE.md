@@ -7,7 +7,8 @@
 ## 先看懂两块打印件
 
 - `plate.stl`：上层面板，安装 13 个按键、立式 EC11 和 12 颗 RGB 灯。
-- `bottom.stl`：下层主板面板，Arduino Micro 固定在右侧红框区域下方，USB-C 朝右后侧。
+- `bottom.stl`：下层主板面板，Arduino Micro 固定在右侧红框区域下方，USB-C 朝图示前侧上边缘。
+- `window_lens.stl`：可选透明主板观察窗；透明亚克力通常比透明 PETG 更清晰。
 - `pixel_carrier.stl`：将 12 颗独立 RGB 灯排成水平灯带。
 - `tolerance_coupon.stl`：先用来测试轴孔、EC11 和 M3 热熔螺母，不要跳过。
 
@@ -36,10 +37,11 @@
 1. 打印 `tolerance_coupon.stl`。
 2. 确认机械轴能插入、拔出，M3 热熔螺母不会太松。
 3. 打印 `pixel_carrier.stl`，确认 RGB 灯能逐颗放入。
-4. 打印 `plate.stl` 和 `bottom.stl`。
-5. 将 13 个轴体插入上层面板。
-6. 将**立式 EC11** 从面板下方装入，轴从面板上方伸出。
-7. 将 USB-C 主控板放入右侧下层承托架，USB-C 朝右后侧开口。
+4. 打印 `window_lens.stl`，确认它能落入上层主板窗口。
+5. 打印 `plate.stl` 和 `bottom.stl`。
+6. 将 13 个轴体插入上层面板。
+7. 将**立式 EC11** 从面板下方装入，轴从面板上方伸出。
+8. 将 USB-C 主控板放入右侧下层承托架，USB-C 朝图示前侧上边缘开口。
 
 不要在试装通过前使用胶水。主控板需要满足：ATmega32U4、5V、16MHz、约 48×18mm、USB-C 数据接口。
 
@@ -163,7 +165,7 @@ python host/agentd/agentd.py --port /dev/cu.usbmodemXXXX --quota 50
 3. 将 RGB 灯焊好并固定在 `pixel_carrier` 上。
 4. 将按键和 EC11 固定在上层面板。
 5. 将矩阵、EC11、RGB 的线整理并用热缩管绝缘。
-6. 用 4 个 M3×12mm 螺丝连接上下层面板。
+6. 将透明观察窗贴在上层面板窗口下方，再用 4 个 M3×12mm 螺丝连接上下层面板。
 7. 先不拧得太紧，确认 USB-C 插头能顺畅插拔。
 8. 最后贴防滑脚垫。
 

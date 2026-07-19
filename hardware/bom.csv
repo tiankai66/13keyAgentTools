@@ -11,4 +11,5 @@ wire,Hook-up wire,26-30 AWG stranded,1 set,yes,Use separate colors for rows and 
 fastener,M3 heat-set insert,Brass insert,4,yes,Tune hole with tolerance coupon
 fastener,M3 screw,M3x12 mm for the 10 mm upper-panel spacers,4,yes,Right-side controller panel uses printed retention blocks; verify engagement after printing
 foot,Silicone feet,Adhesive or press-fit,4,optional,Prevent desk sliding
-power,USB data cable,USB-C,1,yes,Use a known data cable; straight plug preferred for the right-rear opening
+power,USB data cable,USB-C,1,yes,Use a known data cable; straight plug preferred for the front opening
+panel,Controller inspection window,Clear acrylic or transparent PETG about 23.4x49.4x1.5 mm,1,optional,Protects the right-side Arduino Micro and shows the board

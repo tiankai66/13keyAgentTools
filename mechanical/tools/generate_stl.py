@@ -24,14 +24,22 @@ CONTROLLER_PANEL_T = 4.0
 SPACER_H = 10.0
 CORNER_R = 4.0
 # Use the large right-side blank area under the upper panel for the controller.
+# The board is rotated vertically and its USB-C connector faces the front edge.
 CONTROLLER_BOARD_X = 89.0
 CONTROLLER_BOARD_Y = 43.0
 CONTROLLER_USB_X = 98.0
 CONTROLLER_USB_OPENING_W = 16.0
 CONTROLLER_USB_OPENING_D = 7.0
+CONTROLLER_WINDOW_X = 98.0
+CONTROLLER_WINDOW_Y = 65.0
+CONTROLLER_WINDOW_W = 24.0
+CONTROLLER_WINDOW_D = 50.0
+WINDOW_LENS_T = 1.5
+WINDOW_LENS_W = 23.4
+WINDOW_LENS_D = 49.4
 KEY_PITCH = 19.05
 KEY_HOLE = 14.0
-KEY_ORIGIN = (10.0, 8.0)
+KEY_ORIGIN = (12.0, 10.0)
 KEY_POSITIONS = (
     (0, 0),
     (0, 1),
@@ -121,7 +129,7 @@ def panel_mount_cutters(height: float) -> list[trimesh.Trimesh]:
 
 
 def usb_opening(height: float) -> trimesh.Trimesh:
-    """Open the right-rear edge for the USB-C controller."""
+    """Open the front edge for the USB-C controller."""
 
     return box(
         CONTROLLER_USB_OPENING_W,
@@ -131,8 +139,27 @@ def usb_opening(height: float) -> trimesh.Trimesh:
     )
 
 
+def controller_window() -> trimesh.Trimesh:
+    """Create the clear inspection-window cutter above the controller board."""
+
+    mesh = rounded_prism(
+        CONTROLLER_WINDOW_W,
+        CONTROLLER_WINDOW_D,
+        PLATE_T + 2.0,
+        2.0,
+    )
+    mesh.apply_translation(
+        (
+            CONTROLLER_WINDOW_X - CONTROLLER_WINDOW_W / 2.0,
+            CONTROLLER_WINDOW_Y - CONTROLLER_WINDOW_D / 2.0,
+            -1.0,
+        )
+    )
+    return mesh
+
+
 def top_panel() -> trimesh.Trimesh:
-    """Upper control panel: 13 keys, horizontal RGB rail, and one vertical EC11."""
+    """Upper control panel: 13 keys, RGB rail, window, and vertical EC11."""
 
     base = rounded_prism(CASE_W, CASE_D, PLATE_T, CORNER_R)
     cutters: list[trimesh.Trimesh] = []
@@ -149,7 +176,7 @@ def top_panel() -> trimesh.Trimesh:
     cutters.append(cylinder(8.0, PLATE_T + 2, (x, y, PLATE_T / 2.0)))
     cutters.append(box(12.0, 16.0, PLATE_T + 2, (x, y + 8.0, PLATE_T / 2.0)))
 
-    # Rear-edge cable opening, intentionally oversized for tolerance.
+    # Front-edge cable opening, intentionally oversized for Type-C tolerance.
     cutters.append(usb_opening(PLATE_T + 2))
 
     # Twelve horizontal individual RGB windows.
@@ -163,6 +190,7 @@ def top_panel() -> trimesh.Trimesh:
                 (x, QUOTA_LED_Y, PLATE_T / 2.0),
             )
         )
+    cutters.append(controller_window())
     return difference(base, cutters)
 
 
@@ -240,6 +268,20 @@ def pixel_carrier() -> trimesh.Trimesh:
     return mesh
 
 
+def window_lens() -> trimesh.Trimesh:
+    """Print an optional clear-PETG lens for the controller inspection window."""
+
+    mesh = rounded_prism(WINDOW_LENS_W, WINDOW_LENS_D, WINDOW_LENS_T, 1.5)
+    mesh.apply_translation(
+        (
+            CONTROLLER_WINDOW_X - WINDOW_LENS_W / 2.0,
+            CONTROLLER_WINDOW_Y - WINDOW_LENS_D / 2.0,
+            0.0,
+        )
+    )
+    return mesh
+
+
 def tolerance_coupon() -> trimesh.Trimesh:
     coupon_w = 70.0
     coupon_d = 42.0
@@ -262,6 +304,7 @@ BUILDERS = {
     "bottom": controller_panel,
     "tolerance_coupon": tolerance_coupon,
     "pixel_carrier": pixel_carrier,
+    "window_lens": window_lens,
 }
 
 
