@@ -2,6 +2,8 @@
 
 本项目第一版是手焊结构，不需要定制 PCB。
 
+从零开始装配请先看 [Rev 0.7 小白装配指南](../docs/BEGINNER_BUILD_GUIDE.md)。
+
 ## 关键选择
 
 - Arduino Micro 兼容板：ATmega32U4，5V / 16MHz，USB-C 数据接口；板体约 48 × 18 mm。

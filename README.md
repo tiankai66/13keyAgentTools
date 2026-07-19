@@ -27,7 +27,7 @@
 
 ## 快速开始
 
-1. 阅读 [硬件接线说明](hardware/wiring/README.md)。
+1. 先阅读面向新手的 [硬件装配指南](docs/BEGINNER_BUILD_GUIDE.md)，再阅读 [硬件接线说明](hardware/wiring/README.md)。
 2. 将 [公差件 STL](mechanical/exports/tolerance_coupon.stl) 导入 Bambu Studio，先验证轴孔和 M3 铜螺母配合。
 3. 将 [灯珠承载条](mechanical/exports/pixel_carrier.stl)、[定位板 STL](mechanical/exports/plate.stl) 和 [底壳 STL](mechanical/exports/bottom.stl) 导入切片器打印；参数见 [打印计划](mechanical/print/PRINT_PLAN.md)。
 4. 也可以用 OpenSCAD 打开 `mechanical/cad/agent_macro.scad`，或运行 `make cad-export` 重新生成 STL。
