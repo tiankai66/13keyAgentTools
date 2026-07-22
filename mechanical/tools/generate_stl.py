@@ -62,9 +62,8 @@ SCREW_POSITIONS = (
     (CASE_W - 5.0, CASE_D - 5.0),
 )
 VOLUME_ENCODER = (104.0, 15.0)
-ENCODER_WINDOW_W = 12.5
-ENCODER_WINDOW_D = 12.5
-ENCODER_WINDOW_R = 1.5
+# Nominal 6 mm encoder shaft; 0.2 mm clearance is intentional for FDM.
+ENCODER_SHAFT_HOLE_D = 6.2
 QUOTA_LED_COUNT = 12
 QUOTA_LED_START_X = 32.0
 QUOTA_LED_Y = 15.0
@@ -161,23 +160,14 @@ def controller_window() -> trimesh.Trimesh:
     return mesh
 
 
-def encoder_window() -> trimesh.Trimesh:
-    """Create a compact rounded opening for the photographed small EC11 body."""
+def encoder_shaft_hole() -> trimesh.Trimesh:
+    """Create the circular clearance hole for the photographed 6 mm EC11 shaft."""
 
-    mesh = rounded_prism(
-        ENCODER_WINDOW_W,
-        ENCODER_WINDOW_D,
+    return cylinder(
+        ENCODER_SHAFT_HOLE_D,
         PLATE_T + 2.0,
-        ENCODER_WINDOW_R,
+        (VOLUME_ENCODER[0], VOLUME_ENCODER[1], PLATE_T / 2.0),
     )
-    mesh.apply_translation(
-        (
-            VOLUME_ENCODER[0] - ENCODER_WINDOW_W / 2.0,
-            VOLUME_ENCODER[1] - ENCODER_WINDOW_D / 2.0,
-            -1.0,
-        )
-    )
-    return mesh
 
 
 def top_panel() -> trimesh.Trimesh:
@@ -193,8 +183,8 @@ def top_panel() -> trimesh.Trimesh:
 
     cutters.extend(panel_mount_cutters(PLATE_T + 2))
 
-    # Compact window for the photographed small-body vertical EC11.
-    cutters.append(encoder_window())
+    # Circular clearance hole for the photographed 6 mm vertical EC11 shaft.
+    cutters.append(encoder_shaft_hole())
 
     # Front-edge cable opening, intentionally oversized for Type-C tolerance.
     cutters.append(usb_opening(PLATE_T + 2))

@@ -1,4 +1,4 @@
-# Rev 0.7 引脚表
+# Rev 0.8.2 引脚表
 
 以下是 Arduino Micro 的 Arduino 引脚命名。`A0`～`A3` 既可以作模拟输入，也可以作为数字输入/输出；本项目按具体功能使用。
 
@@ -17,7 +17,7 @@
 | Volume encoder push | D12 | 输入上拉 | 音量旋钮按下 |
 | Quota RGB pixel DIN | A3 | 输出 | 12 颗 WS2812B / SK6812 独立灯珠串联数据 |
 
-## Rev 0.7 两层布局
+## Rev 0.8.2 两层布局
 
 ```text
 [左上 1 键] [12 颗水平面板 RGB quota 灯][音量旋钮]
