@@ -36,6 +36,9 @@ key_hole = 14.0;
 // One vertical EC11 encoder, reserved for future system-volume control.
 // The shaft is perpendicular to the upper panel; the body is below the panel.
 volume_encoder = [104, 15];
+encoder_window_w = 12.5;
+encoder_window_d = 12.5;
+encoder_window_r = 1.5;
 
 // Twelve individually addressable RGB pixels on a horizontal top-panel rail.
 quota_led_count = 12;
@@ -118,11 +121,19 @@ module window_lens() {
 }
 
 module control_holes(extra = 1) {
-    // Dedicated volume EC11 shaft and anti-rotation clearance.
-    translate([volume_encoder[0], volume_encoder[1], -extra])
-        cylinder(d = 8.0, h = plate_t + 2 * extra);
-    translate([volume_encoder[0], volume_encoder[1] + 8, -extra])
-        cube([12, 16, plate_t + 2 * extra], center = true);
+    // Compact opening for the photographed small-body vertical EC11.
+    // The body passes through; the shaft and knob remain above the panel.
+    translate([
+        volume_encoder[0] - encoder_window_w / 2,
+        volume_encoder[1] - encoder_window_d / 2,
+        -extra
+    ])
+        rounded_prism(
+            encoder_window_w,
+            encoder_window_d,
+            plate_t + 2 * extra,
+            encoder_window_r
+        );
 
     usb_opening(extra);
 }

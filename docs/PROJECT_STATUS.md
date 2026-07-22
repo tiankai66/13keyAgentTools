@@ -1,6 +1,6 @@
 # 项目状态
 
-当前版本：`0.8.0-front-power-inspection-window`
+当前版本：`0.8.1-compact-ec11-window`
 
 ## 已完成
 
@@ -15,6 +15,7 @@
 - 独立下层主板面板、右侧红框下方的 Arduino Micro 承托架和四角上层支柱
 - Bambu Studio 可导入的 Rev 0.8 USB-C 双层面板 STL 导出链路
 - 前侧 USB-C 入口、主板透明观察窗和按键/螺丝安全间距优化
+- 根据实物照片将 EC11 窗口收紧为约 12.5 × 12.5 mm
 - Arduino IDE MVP 固件骨架
 - 主机端 USB CDC 灯效测试工具
 
