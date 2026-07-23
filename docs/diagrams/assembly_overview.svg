@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#f7fafc"/>
+  <text x="60" y="58" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#14213d">13 键宏按键：两层面板装配关系</text>
+  <text x="60" y="92" font-family="Arial, sans-serif" font-size="18" fill="#52606d">先装上层按键面板，再固定下层 Arduino Micro；USB-C 位于前侧。</text>
+
+  <g transform="translate(55,135)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#0f766e">① 上层控制面板 plate.stl（从上面看）</text>
+    <rect x="0" y="35" width="650" height="420" rx="24" fill="#e6fffb" stroke="#0f766e" stroke-width="4"/>
+    <g fill="#1f2937" stroke="#111827" stroke-width="2">
+      <rect x="52" y="58" width="58" height="58" rx="8"/>
+      <rect x="52" y="138" width="58" height="58" rx="8"/><rect x="132" y="138" width="58" height="58" rx="8"/>
+      <rect x="212" y="138" width="58" height="58" rx="8"/><rect x="292" y="138" width="58" height="58" rx="8"/>
+      <rect x="52" y="218" width="58" height="58" rx="8"/><rect x="132" y="218" width="58" height="58" rx="8"/>
+      <rect x="212" y="218" width="58" height="58" rx="8"/><rect x="292" y="218" width="58" height="58" rx="8"/>
+      <rect x="52" y="298" width="58" height="58" rx="8"/><rect x="132" y="298" width="58" height="58" rx="8"/>
+      <rect x="212" y="298" width="58" height="58" rx="8"/><rect x="292" y="298" width="58" height="58" rx="8"/>
+    </g>
+    <g font-family="Arial, sans-serif" font-size="18" fill="#ffffff" text-anchor="middle">
+      <text x="81" y="94">A</text>
+      <text x="81" y="174">B</text><text x="161" y="174">C</text><text x="241" y="174">D</text><text x="321" y="174">E</text>
+      <text x="81" y="254">F</text><text x="161" y="254">G</text><text x="241" y="254">H</text><text x="321" y="254">I</text>
+      <text x="81" y="334">J</text><text x="161" y="334">K</text><text x="241" y="334">L</text><text x="321" y="334">M</text>
+    </g>
+    <g fill="#22d3ee" stroke="#0891b2" stroke-width="2">
+      <rect x="115" y="350" width="28" height="18" rx="3"/><rect x="151" y="350" width="28" height="18" rx="3"/>
+      <rect x="187" y="350" width="28" height="18" rx="3"/><rect x="223" y="350" width="28" height="18" rx="3"/>
+      <rect x="259" y="350" width="28" height="18" rx="3"/><rect x="295" y="350" width="28" height="18" rx="3"/>
+      <rect x="331" y="350" width="28" height="18" rx="3"/><rect x="367" y="350" width="28" height="18" rx="3"/>
+      <rect x="403" y="350" width="28" height="18" rx="3"/><rect x="439" y="350" width="28" height="18" rx="3"/>
+      <rect x="475" y="350" width="28" height="18" rx="3"/><rect x="511" y="350" width="28" height="18" rx="3"/>
+    </g>
+    <circle cx="574" cy="122" r="25" fill="#f97316" stroke="#c2410c" stroke-width="4"/>
+    <circle cx="574" cy="122" r="8" fill="#fff7ed" stroke="#c2410c" stroke-width="2"/>
+    <text x="574" y="178" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#9a3412">6mm 轴 / Ø6.2mm 孔</text>
+    <text x="327" y="410" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#0e7490">12 颗独立 RGB 灯</text>
+  </g>
+
+  <g transform="translate(760,135)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#7c3aed">② 下层主板面板 bottom.stl（从上面看）</text>
+    <rect x="0" y="35" width="380" height="420" rx="24" fill="#ede9fe" stroke="#7c3aed" stroke-width="4"/>
+    <rect x="84" y="92" width="212" height="250" rx="10" fill="#1e293b" stroke="#0f172a" stroke-width="4"/>
+    <rect x="151" y="62" width="78" height="35" rx="5" fill="#0f172a"/>
+    <text x="190" y="220" font-family="Arial, sans-serif" font-size="22" text-anchor="middle" fill="#c4b5fd">Arduino</text>
+    <text x="190" y="250" font-family="Arial, sans-serif" font-size="22" text-anchor="middle" fill="#c4b5fd">Micro USB-C</text>
+    <circle cx="30" cy="65" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/><circle cx="350" cy="65" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+    <circle cx="30" cy="425" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/><circle cx="350" cy="425" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
+    <path d="M190 35 L190 0" stroke="#ef4444" stroke-width="5" marker-end="url(#arrow)"/>
+    <text x="190" y="-12" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#b91c1c">前侧 USB-C</text>
+  </g>
+
+  <g transform="translate(70,625)">
+    <path d="M540 0 L660 0" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="600" y="-12" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#334155">M3×12 螺丝 + 10mm 支柱</text>
+    <path d="M860 0 L980 0" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="920" y="-12" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#334155">最后再接 USB</text>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker>
+  </defs>
+</svg>

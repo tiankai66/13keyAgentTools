@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620">
+  <rect width="1200" height="620" fill="#fffdf7"/>
+  <text x="55" y="60" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#172554">2 针按键的正确焊法：按键无极性，二极管有方向</text>
+  <text x="55" y="96" font-family="Arial, sans-serif" font-size="20" fill="#475569">每个按键只有两个金属脚；二极管是另外串联的一只元件，不是按键的第三个脚。</text>
+
+  <g transform="translate(70,150)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#1d4ed8">单个按键电气路径</text>
+    <line x1="20" y1="130" x2="160" y2="130" stroke="#2563eb" stroke-width="6"/>
+    <line x1="390" y1="130" x2="530" y2="130" stroke="#ea580c" stroke-width="6"/>
+    <text x="20" y="105" font-family="Arial, sans-serif" font-size="21" fill="#1d4ed8">列线：D8/D9/D10/D11</text>
+    <text x="530" y="105" font-family="Arial, sans-serif" font-size="21" text-anchor="end" fill="#c2410c">行线：D4/D5/D6/D7</text>
+    <rect x="160" y="62" width="230" height="136" rx="18" fill="#1f2937" stroke="#111827" stroke-width="4"/>
+    <rect x="190" y="92" width="170" height="76" rx="10" fill="#374151"/>
+    <circle cx="160" cy="130" r="10" fill="#d1d5db" stroke="#111827" stroke-width="3"/>
+    <circle cx="390" cy="130" r="10" fill="#d1d5db" stroke="#111827" stroke-width="3"/>
+    <text x="275" y="120" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#f9fafb">2 针机械按键</text>
+    <text x="275" y="153" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#d1d5db">S1、S2 可互换</text>
+
+    <line x1="390" y1="130" x2="430" y2="130" stroke="#374151" stroke-width="6"/>
+    <polygon points="430,110 430,150 480,130" fill="#f59e0b" stroke="#92400e" stroke-width="3"/>
+    <line x1="480" y1="105" x2="480" y2="155" stroke="#111827" stroke-width="7"/>
+    <line x1="480" y1="130" x2="530" y2="130" stroke="#374151" stroke-width="6"/>
+    <text x="456" y="190" font-family="Arial, sans-serif" font-size="19" text-anchor="middle" fill="#92400e">1N4148</text>
+    <text x="505" y="92" font-family="Arial, sans-serif" font-size="19" text-anchor="middle" fill="#111827">黑环 = 阴极</text>
+    <path d="M480 165 C480 220, 560 220, 560 165" fill="none" stroke="#b91c1c" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="620" y="215" font-family="Arial, sans-serif" font-size="20" fill="#b91c1c">黑环朝行线</text>
+  </g>
+
+  <g transform="translate(75,430)">
+    <rect x="0" y="0" width="1040" height="115" rx="16" fill="#ecfdf5" stroke="#059669" stroke-width="3"/>
+    <text x="25" y="38" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#047857">焊接动作（每个焊点重复）</text>
+    <text x="25" y="78" font-family="Arial, sans-serif" font-size="20" fill="#065f46">1. 烙铁同时碰焊盘和针脚 1–2 秒  →  2. 从另一侧送焊锡  →  3. 先移焊锡再移烙铁  →  4. 焊点像小火山，不要堆成球</text>
+    <text x="25" y="105" font-family="Arial, sans-serif" font-size="18" fill="#065f46">按键两脚没有正负；只有二极管的黑色环必须统一朝行线。</text>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#b91c1c"/></marker>
+  </defs>
+</svg>

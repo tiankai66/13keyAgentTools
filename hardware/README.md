@@ -2,7 +2,7 @@
 
 本项目第一版是手焊结构，不需要定制 PCB。
 
-从零开始装配请先看 [Rev 0.7 小白装配指南](../docs/BEGINNER_BUILD_GUIDE.md)。
+从零开始装配请先看 [Rev 0.8.2 从 0 到 1 手焊装配说明书](../docs/BEGINNER_BUILD_GUIDE.md)。
 
 ## 关键选择
 
