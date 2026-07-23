@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1300" viewBox="0 0 1800 1300">
+  <rect width="1800" height="1300" fill="#f8fafc"/>
+  <text x="60" y="65" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#111827">13 键 Agent 宏键盘：完整焊接与装配总图</text>
+  <text x="60" y="108" font-family="Arial, sans-serif" font-size="23" fill="#475569">按 ① → ② → ③ → ④ 做。黑色是元件，橙色是行线，蓝色是列线，紫色是旋钮，黄色是 RGB 数据线。</text>
+
+  <!-- 1 upper panel -->
+  <rect x="45" y="145" width="875" height="735" rx="25" fill="#e5e7eb" stroke="#374151" stroke-width="5"/>
+  <text x="75" y="195" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#111827">① 上层面板背面：先焊按键、二极管、旋钮</text>
+  <text x="75" y="230" font-family="Arial, sans-serif" font-size="20" fill="#4b5563">把 plate.stl 翻过来；每个黑色按键有两个银色针脚。</text>
+
+  <!-- RGB bar on upper panel -->
+  <text x="350" y="272" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle" fill="#92400e">12 颗 RGB 灯（面板正面）</text>
+  <line x1="175" y1="295" x2="205" y2="295" stroke="#f59e0b" stroke-width="7"/>
+  <g fill="#22d3ee" stroke="#0891b2" stroke-width="2">
+    <rect x="205" y="280" width="25" height="30" rx="4"/><rect x="240" y="280" width="25" height="30" rx="4"/><rect x="275" y="280" width="25" height="30" rx="4"/><rect x="310" y="280" width="25" height="30" rx="4"/><rect x="345" y="280" width="25" height="30" rx="4"/><rect x="380" y="280" width="25" height="30" rx="4"/><rect x="415" y="280" width="25" height="30" rx="4"/><rect x="450" y="280" width="25" height="30" rx="4"/><rect x="485" y="280" width="25" height="30" rx="4"/><rect x="520" y="280" width="25" height="30" rx="4"/><rect x="555" y="280" width="25" height="30" rx="4"/><rect x="590" y="280" width="25" height="30" rx="4"/>
+  </g>
+  <text x="635" y="302" font-family="Arial, sans-serif" font-size="19" fill="#92400e">DIN→DOUT</text>
+
+  <!-- row buses -->
+  <g stroke="#f97316" stroke-width="9" stroke-linecap="round" fill="none">
+    <path d="M135 375 H185"/><path d="M135 485 H575"/><path d="M135 595 H575"/><path d="M135 705 H575"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="22" font-weight="700" text-anchor="end" fill="#c2410c">
+    <text x="125" y="383">D4 行0</text><text x="125" y="493">D5 行1</text><text x="125" y="603">D6 行2</text><text x="125" y="713">D7 行3</text>
+  </g>
+
+  <!-- reusable physical key -->
+  <defs>
+    <g id="physical-key">
+      <rect x="-35" y="-30" width="70" height="60" rx="10" fill="#1f2937" stroke="#111827" stroke-width="4"/>
+      <circle cx="-50" cy="0" r="10" fill="#e5e7eb" stroke="#111827" stroke-width="3"/>
+      <circle cx="50" cy="0" r="10" fill="#e5e7eb" stroke="#111827" stroke-width="3"/>
+      <rect x="-105" y="-13" width="38" height="26" rx="5" fill="#fbbf24" stroke="#92400e" stroke-width="3"/>
+      <line x1="-78" y1="-18" x2="-78" y2="18" stroke="#111827" stroke-width="7"/>
+      <line x1="-67" y1="0" x2="-50" y2="0" stroke="#374151" stroke-width="6"/>
+    </g>
+  </defs>
+
+  <!-- physical keys -->
+  <g font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle" fill="#ffffff">
+    <use href="#physical-key" x="255" y="375"/><text x="255" y="382">A</text>
+    <use href="#physical-key" x="255" y="485"/><text x="255" y="492">B</text><use href="#physical-key" x="365" y="485"/><text x="365" y="492">C</text><use href="#physical-key" x="475" y="485"/><text x="475" y="492">D</text><use href="#physical-key" x="585" y="485"/><text x="585" y="492">E</text>
+    <use href="#physical-key" x="255" y="595"/><text x="255" y="602">F</text><use href="#physical-key" x="365" y="595"/><text x="365" y="602">G</text><use href="#physical-key" x="475" y="595"/><text x="475" y="602">H</text><use href="#physical-key" x="585" y="595"/><text x="585" y="602">I</text>
+    <use href="#physical-key" x="255" y="705"/><text x="255" y="712">J</text><use href="#physical-key" x="365" y="705"/><text x="365" y="712">K</text><use href="#physical-key" x="475" y="705"/><text x="475" y="712">L</text><use href="#physical-key" x="585" y="705"/><text x="585" y="712">M</text>
+  </g>
+
+  <!-- column buses -->
+  <g stroke="#2563eb" stroke-width="9" stroke-linecap="round" fill="none">
+    <path d="M305 375 V790"/><path d="M415 485 V790"/><path d="M525 485 V790"/><path d="M635 485 V790"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle" fill="#1d4ed8">
+    <text x="305" y="830">D8 列0</text><text x="415" y="830">D9 列1</text><text x="525" y="830">D10 列2</text><text x="635" y="830">D11 列3</text>
+  </g>
+  <text x="675" y="490" font-family="Arial, sans-serif" font-size="17" fill="#92400e">黄色二极管黑环端接橙线</text>
+
+  <!-- EC11 -->
+  <g transform="translate(745,375)">
+    <circle cx="0" cy="0" r="48" fill="#9ca3af" stroke="#4b5563" stroke-width="6"/><circle cx="0" cy="0" r="15" fill="#e5e7eb" stroke="#374151" stroke-width="4"/>
+    <rect x="-30" y="48" width="60" height="45" rx="7" fill="#4b5563"/>
+    <text x="0" y="135" font-family="Arial, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#6d28d9">立式 EC11</text>
+    <text x="0" y="166" font-family="Arial, sans-serif" font-size="17" text-anchor="middle" fill="#6d28d9">6mm 轴穿过 Ø6.2mm 孔</text>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="20" fill="#6d28d9" font-weight="700">
+    <text x="790" y="340">A→D2</text><text x="790" y="370">B→D3</text><text x="790" y="400">SW→D12</text><text x="790" y="430">COM→GND</text>
+  </g>
+
+  <!-- 2 controller panel -->
+  <rect x="955" y="145" width="800" height="735" rx="25" fill="#ede9fe" stroke="#7c3aed" stroke-width="5"/>
+  <text x="985" y="195" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#5b21b6">② 下层面板：固定 Arduino Micro</text>
+  <text x="985" y="230" font-family="Arial, sans-serif" font-size="20" fill="#6d28d9">主板在右侧红框下方，USB-C 朝前侧开口。</text>
+  <rect x="1270" y="300" width="300" height="350" rx="18" fill="#1e293b" stroke="#0f172a" stroke-width="5"/>
+  <text x="1420" y="365" font-family="Arial, sans-serif" font-size="28" font-weight="700" text-anchor="middle" fill="#c4b5fd">Arduino</text>
+  <text x="1420" y="405" font-family="Arial, sans-serif" font-size="28" font-weight="700" text-anchor="middle" fill="#c4b5fd">Micro 5V</text>
+  <rect x="1370" y="245" width="100" height="55" rx="6" fill="#0f172a"/>
+  <text x="1420" y="225" font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle" fill="#b91c1c">前侧 USB-C</text>
+
+  <!-- pin groups -->
+  <g font-family="Arial, sans-serif" font-size="20" font-weight="700">
+    <rect x="985" y="290" width="245" height="190" rx="14" fill="#fff7ed" stroke="#f97316" stroke-width="3"/>
+    <text x="1005" y="325" fill="#c2410c">按键行线</text><text x="1005" y="360" fill="#c2410c">D4 ← A</text><text x="1005" y="392" fill="#c2410c">D5 ← B C D E</text><text x="1005" y="424" fill="#c2410c">D6 ← F G H I</text><text x="1005" y="456" fill="#c2410c">D7 ← J K L M</text>
+    <rect x="985" y="505" width="245" height="160" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
+    <text x="1005" y="540" fill="#1d4ed8">按键列线</text><text x="1005" y="572" fill="#1d4ed8">D8 ← A B F J</text><text x="1005" y="604" fill="#1d4ed8">D9 ← C G K</text><text x="1005" y="636" fill="#1d4ed8">D10 ← D H L</text><text x="1005" y="668" fill="#1d4ed8">D11 ← E I M</text>
+  </g>
+  <g stroke="#f97316" stroke-width="6"><path d="M1230 335 H1270"/><path d="M1230 367 H1270"/><path d="M1230 399 H1270"/><path d="M1230 431 H1270"/></g>
+  <g stroke="#2563eb" stroke-width="6"><path d="M1230 560 H1270"/><path d="M1230 592 H1270"/><path d="M1230 624 H1270"/><path d="M1230 656 H1270"/></g>
+  <g font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#6d28d9">
+    <text x="1015" y="735">EC11：A→D2，B→D3，SW→D12</text><text x="1015" y="770">EC11 公共脚和按压公共脚 → GND</text>
+    <text x="1015" y="820">所有 GND 共地；第一次通电前测 5V/GND 无短路</text>
+  </g>
+
+  <!-- 3 RGB -->
+  <rect x="45" y="925" width="1060" height="320" rx="25" fill="#fffbeb" stroke="#d97706" stroke-width="5"/>
+  <text x="75" y="975" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#92400e">③ 最后接 RGB：数据串联，电源并联</text>
+  <text x="75" y="1012" font-family="Arial, sans-serif" font-size="19" fill="#92400e">先接 1 颗测试，正常后再接完 12 颗；灯珠箭头从 Arduino 指向灯 0。</text>
+  <text x="90" y="1090" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#92400e">A3</text><line x1="130" y1="1080" x2="190" y2="1080" stroke="#f59e0b" stroke-width="8"/>
+  <rect x="190" y="1055" width="100" height="50" rx="8" fill="#fde68a" stroke="#b45309" stroke-width="3"/><text x="240" y="1088" font-family="Arial, sans-serif" font-size="19" text-anchor="middle" fill="#92400e">330Ω</text><line x1="290" y1="1080" x2="330" y2="1080" stroke="#f59e0b" stroke-width="8"/>
+  <g fill="#22d3ee" stroke="#0891b2" stroke-width="2"><rect x="330" y="1050" width="50" height="60" rx="8"/><rect x="395" y="1050" width="50" height="60" rx="8"/><rect x="460" y="1050" width="50" height="60" rx="8"/><rect x="525" y="1050" width="50" height="60" rx="8"/><rect x="590" y="1050" width="50" height="60" rx="8"/><rect x="655" y="1050" width="50" height="60" rx="8"/><rect x="720" y="1050" width="50" height="60" rx="8"/><rect x="785" y="1050" width="50" height="60" rx="8"/><rect x="850" y="1050" width="50" height="60" rx="8"/></g>
+  <g stroke="#f59e0b" stroke-width="6"><path d="M380 1080 H395"/><path d="M445 1080 H460"/><path d="M510 1080 H525"/><path d="M575 1080 H590"/><path d="M640 1080 H655"/><path d="M705 1080 H720"/><path d="M770 1080 H785"/><path d="M835 1080 H850"/></g>
+  <text x="930" y="1088" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#92400e">DIN→DOUT→DIN→…</text>
+  <line x1="330" y1="1025" x2="900" y2="1025" stroke="#dc2626" stroke-width="7"/><text x="915" y="1032" font-family="Arial, sans-serif" font-size="19" fill="#b91c1c">5V 并联</text>
+  <line x1="330" y1="1140" x2="900" y2="1140" stroke="#374151" stroke-width="7"/><text x="915" y="1147" font-family="Arial, sans-serif" font-size="19" fill="#374151">GND 并联</text>
+  <text x="75" y="1215" font-family="Arial, sans-serif" font-size="18" fill="#92400e">1000µF 电容：正极接 5V，负极接 GND，靠近灯带入口</text>
+
+  <!-- 4 final assembly -->
+  <rect x="1140" y="925" width="615" height="320" rx="25" fill="#ecfdf5" stroke="#059669" stroke-width="5"/>
+  <text x="1170" y="975" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#065f46">④ 最后合体</text>
+  <rect x="1210" y="1025" width="470" height="48" rx="10" fill="#374151"/><rect x="1240" y="995" width="410" height="45" rx="10" fill="#d1d5db" stroke="#6b7280" stroke-width="3"/>
+  <text x="1445" y="1025" font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle" fill="#111827">上层面板：按键/旋钮/RGB</text>
+  <text x="1445" y="1058" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle" fill="#e5e7eb">10mm 支柱</text>
+  <text x="1445" y="1115" font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle" fill="#e5e7eb">下层面板：Arduino Micro</text>
+  <text x="1170" y="1180" font-family="Arial, sans-serif" font-size="20" fill="#065f46">先开盖测试全部按键/旋钮/RGB</text>
+  <text x="1170" y="1215" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#b91c1c">确认无短路后，最后插 USB-C</text>
+</svg>
