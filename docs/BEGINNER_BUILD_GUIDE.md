@@ -4,7 +4,7 @@
 
 ## 先看这张完整总图
 
-![完整焊接与装配总图](diagrams/full_wiring_assembly.svg)
+![参考风格完整焊接接线图](diagrams/full_wiring_poster.png)
 
 按图中的顺序做：
 
