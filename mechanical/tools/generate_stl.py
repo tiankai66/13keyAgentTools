@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Bambu Studio compatible STL files for the two-panel macro keyboard.
+"""Generate Rev 0.9.4 Bambu Studio compatible STL files for the closed-box macro keyboard.
 
 The OpenSCAD file remains the design source. This script is a headless export
 path for macOS environments where the OpenSCAD GUI binary cannot render from
@@ -20,23 +20,29 @@ import trimesh
 CASE_W = 120.0
 CASE_D = 95.0
 PLATE_T = 3.0
-CONTROLLER_PANEL_T = 4.0
-SPACER_H = 10.0
+BOTTOM_FLOOR_T = 2.4
+BOTTOM_WALL_T = 2.4
+BOTTOM_BOX_H = 16.0
 CORNER_R = 4.0
-# Use the large right-side blank area under the upper panel for the controller.
-# The board is rotated vertically and its USB-C connector faces the front edge.
+# Measured 35 x 18 x 10 mm controller board, lying flat with USB-C facing front.
+CONTROLLER_BOARD_W = 18.0
+CONTROLLER_BOARD_L = 35.0
+CONTROLLER_BOARD_H = 10.0
 CONTROLLER_BOARD_X = 89.0
-CONTROLLER_BOARD_Y = 43.0
+CONTROLLER_BOARD_Y = 57.5
 CONTROLLER_USB_X = 98.0
-CONTROLLER_USB_OPENING_W = 16.0
-CONTROLLER_USB_OPENING_D = 7.0
+CONTROLLER_USB_OPENING_W = 14.0
+CONTROLLER_USB_OPENING_D = 5.0
+CONTROLLER_USB_OPENING_Z = 4.0
+CONTROLLER_USB_OPENING_H = 9.0
+CONTROLLER_BOARD_CLEARANCE = 0.6
 CONTROLLER_WINDOW_X = 98.0
 CONTROLLER_WINDOW_Y = 65.0
 CONTROLLER_WINDOW_W = 24.0
 CONTROLLER_WINDOW_D = 50.0
 WINDOW_LENS_T = 1.5
-WINDOW_LENS_W = 23.4
-WINDOW_LENS_D = 49.4
+WINDOW_LENS_W = 25.4
+WINDOW_LENS_D = 51.4
 KEY_PITCH = 19.05
 KEY_HOLE = 14.0
 KEY_ORIGIN = (12.0, 10.0)
@@ -130,14 +136,18 @@ def panel_mount_cutters(height: float) -> list[trimesh.Trimesh]:
     return cutters
 
 
-def usb_opening(height: float) -> trimesh.Trimesh:
-    """Open the front edge for the USB-C controller."""
+def usb_port_opening() -> trimesh.Trimesh:
+    """Cut a 14 x 9 mm Type-C plug opening through the lower front wall."""
 
     return box(
         CONTROLLER_USB_OPENING_W,
         CONTROLLER_USB_OPENING_D,
-        height,
-        (CONTROLLER_USB_X, CASE_D, height / 2.0 - 1.0),
+        CONTROLLER_USB_OPENING_H,
+        (
+            CONTROLLER_USB_X,
+            CASE_D - CONTROLLER_USB_OPENING_D / 2.0,
+            CONTROLLER_USB_OPENING_Z + CONTROLLER_USB_OPENING_H / 2.0,
+        ),
     )
 
 
@@ -186,9 +196,6 @@ def top_panel() -> trimesh.Trimesh:
     # Circular clearance hole for the photographed 6 mm vertical EC11 shaft.
     cutters.append(encoder_shaft_hole())
 
-    # Front-edge cable opening, intentionally oversized for Type-C tolerance.
-    cutters.append(usb_opening(PLATE_T + 2))
-
     # Twelve horizontal individual RGB windows.
     for index in range(QUOTA_LED_COUNT):
         x = QUOTA_LED_START_X + index * QUOTA_LED_PITCH
@@ -204,57 +211,75 @@ def top_panel() -> trimesh.Trimesh:
     return difference(base, cutters)
 
 
-def controller_spacers() -> list[trimesh.Trimesh]:
-    """Four integrated M3 spacer rings for the upper panel."""
+def corner_bosses() -> list[trimesh.Trimesh]:
+    """Four integrated M3 bosses that retain the upper lid."""
 
     rings = []
     for x, y in SCREW_POSITIONS:
-        ring = cylinder(
-            8.0,
-            SPACER_H + 0.1,
-            (x, y, CONTROLLER_PANEL_T - 0.1 + (SPACER_H + 0.1) / 2.0),
-        )
+        ring = cylinder(8.0, BOTTOM_BOX_H, (x, y, BOTTOM_BOX_H / 2.0))
         hole = cylinder(
             3.4,
-            SPACER_H + 2.0,
-            (x, y, CONTROLLER_PANEL_T - 0.1 + (SPACER_H + 0.1) / 2.0),
+            BOTTOM_BOX_H + 2.0,
+            (x, y, BOTTOM_BOX_H / 2.0),
         )
         rings.append(difference(ring, [hole]))
     return rings
 
 
 def micro_board_shelf() -> list[trimesh.Trimesh]:
-    """Shelf and retention blocks for an Arduino Micro rotated vertically."""
+    """Captive cradle for the measured 35 x 18 x 10 mm controller board."""
 
     board_x = CONTROLLER_BOARD_X
     board_y = CONTROLLER_BOARD_Y
+    pad_x = board_x - CONTROLLER_BOARD_CLEARANCE
+    pad_y = board_y - CONTROLLER_BOARD_CLEARANCE
+    pad_w = CONTROLLER_BOARD_W + 2.0 * CONTROLLER_BOARD_CLEARANCE
+    pad_d = CONTROLLER_BOARD_L + 2.0 * CONTROLLER_BOARD_CLEARANCE
+    pad_t = 1.2
+    rail_t = 1.4
+    rail_bottom = BOTTOM_FLOOR_T + pad_t - 0.05
+    rail_h = BOTTOM_BOX_H - 0.6 - rail_bottom
     shelf = box(
-        22.0,
-        52.0,
-        2.0,
-        (board_x + 9.0, board_y + 24.0, CONTROLLER_PANEL_T + 1.0),
+        pad_w,
+        pad_d,
+        pad_t + 0.1,
+        (pad_x + pad_w / 2.0, pad_y + pad_d / 2.0, BOTTOM_FLOOR_T + pad_t / 2.0),
     )
-    retention_blocks = []
-    for x, y in (
-        (board_x - 2.0, board_y - 2.0),
-        (board_x + 17.0, board_y - 2.0),
-        (board_x - 2.0, board_y + 47.0),
-        (board_x + 17.0, board_y + 47.0),
-    ):
-        retention_blocks.append(
-            box(3.0, 3.0, 4.0, (x + 1.5, y + 1.5, CONTROLLER_PANEL_T + 4.0))
-        )
-    return [shelf, *retention_blocks]
+    left_rail = box(
+        rail_t,
+        pad_d,
+        rail_h,
+        (pad_x - rail_t / 2.0, pad_y + pad_d / 2.0, rail_bottom + rail_h / 2.0),
+    )
+    right_rail = box(
+        rail_t,
+        pad_d,
+        rail_h,
+        (pad_x + pad_w + rail_t / 2.0, pad_y + pad_d / 2.0, rail_bottom + rail_h / 2.0),
+    )
+    rear_stop = box(
+        pad_w + 2.0 * rail_t,
+        1.4,
+        5.0,
+        (pad_x + pad_w / 2.0, pad_y + 0.7, rail_bottom + 2.5),
+    )
+    return [shelf, left_rail, right_rail, rear_stop]
 
 
 def controller_panel() -> trimesh.Trimesh:
-    """Lower panel with an Arduino Micro shelf and upper-panel spacers."""
+    """Closed lower box with Type-C port and captive Arduino Micro cradle."""
 
-    base = rounded_prism(CASE_W, CASE_D, CONTROLLER_PANEL_T, CORNER_R)
-    cutters = panel_mount_cutters(CONTROLLER_PANEL_T + SPACER_H + 2.0)
-    cutters.append(usb_opening(CONTROLLER_PANEL_T + 2.0))
+    base = rounded_prism(CASE_W, CASE_D, BOTTOM_BOX_H, CORNER_R)
+    inner = rounded_prism(
+        CASE_W - 2.0 * BOTTOM_WALL_T,
+        CASE_D - 2.0 * BOTTOM_WALL_T,
+        BOTTOM_BOX_H,
+        CORNER_R - BOTTOM_WALL_T,
+    )
+    inner.apply_translation((BOTTOM_WALL_T, BOTTOM_WALL_T, BOTTOM_FLOOR_T))
+    cutters = [inner, *panel_mount_cutters(BOTTOM_BOX_H + 2.0), usb_port_opening()]
     shell = difference(base, cutters)
-    return union([shell, *controller_spacers(), *micro_board_shelf()])
+    return union([shell, *corner_bosses(), *micro_board_shelf()])
 
 
 def pixel_carrier() -> trimesh.Trimesh:

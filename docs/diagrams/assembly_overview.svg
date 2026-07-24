@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
   <rect width="1200" height="720" fill="#f7fafc"/>
-  <text x="60" y="58" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#14213d">13 键宏按键：两层面板装配关系</text>
-  <text x="60" y="92" font-family="Arial, sans-serif" font-size="18" fill="#52606d">先装上层按键面板，再固定下层 Arduino Micro；USB-C 位于前侧。</text>
+  <text x="60" y="58" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#14213d">13 键宏按键：封闭式盒体装配关系</text>
+  <text x="60" y="92" font-family="Arial, sans-serif" font-size="18" fill="#52606d">先焊线并测试，再把 35×18×10 mm 主控卡入下层盒体；USB-C 位于前墙。</text>
 
   <g transform="translate(55,135)">
     <text x="0" y="0" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#0f766e">① 上层控制面板 plate.stl（从上面看）</text>
@@ -36,23 +36,23 @@
   </g>
 
   <g transform="translate(760,135)">
-    <text x="0" y="0" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#7c3aed">② 下层主板面板 bottom.stl（从上面看）</text>
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#7c3aed">② 下层封闭盒体 bottom.stl（从上面看）</text>
     <rect x="0" y="35" width="380" height="420" rx="24" fill="#ede9fe" stroke="#7c3aed" stroke-width="4"/>
     <rect x="84" y="92" width="212" height="250" rx="10" fill="#1e293b" stroke="#0f172a" stroke-width="4"/>
     <rect x="151" y="62" width="78" height="35" rx="5" fill="#0f172a"/>
-    <text x="190" y="220" font-family="Arial, sans-serif" font-size="22" text-anchor="middle" fill="#c4b5fd">Arduino</text>
-    <text x="190" y="250" font-family="Arial, sans-serif" font-size="22" text-anchor="middle" fill="#c4b5fd">Micro USB-C</text>
+    <text x="190" y="220" font-family="Arial, sans-serif" font-size="22" text-anchor="middle" fill="#c4b5fd">Arduino Micro</text>
+    <text x="190" y="250" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#c4b5fd">35×18×10 mm 卡槽</text>
     <circle cx="30" cy="65" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/><circle cx="350" cy="65" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
     <circle cx="30" cy="425" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/><circle cx="350" cy="425" r="8" fill="#fff" stroke="#7c3aed" stroke-width="3"/>
     <path d="M190 35 L190 0" stroke="#ef4444" stroke-width="5" marker-end="url(#arrow)"/>
-    <text x="190" y="-12" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#b91c1c">前侧 USB-C</text>
+    <text x="190" y="-12" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#b91c1c">前墙 Type-C 14×9</text>
   </g>
 
   <g transform="translate(70,625)">
     <path d="M540 0 L660 0" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/>
-    <text x="600" y="-12" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#334155">M3×12 螺丝 + 10mm 支柱</text>
+    <text x="600" y="-12" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#334155">M3×16 螺丝 + 16mm 封闭盒体</text>
     <path d="M860 0 L980 0" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/>
-    <text x="920" y="-12" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#334155">最后再接 USB</text>
+    <text x="920" y="-12" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#334155">先测试，最后合盖</text>
   </g>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker>

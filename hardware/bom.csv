@@ -1,5 +1,5 @@
 category,part,spec,qty,required,notes
-controller,Arduino Micro compatible board,ATmega32U4 5V 16MHz USB-C data interface with headers,1,yes,Board outline about 48x18 mm; do not substitute ATmega328P or 3.3V/8MHz
+controller,Arduino Micro compatible board,ATmega32U4 5V 16MHz USB-C data interface with headers,1,yes,Measured board outline 35x18x10 mm; do not substitute ATmega328P or 3.3V/8MHz
 switch,Mechanical switch,MX-compatible or low-profile switch,13,yes,Rev 0.7 uses individual 1U positions
 keycap,Keycap,MX-compatible 1U,13,yes,Use 2U visual key only after matrix is stable
 diode,1N4148,Through-hole signal diode,13,yes,One diode per switch
@@ -9,7 +9,7 @@ passive,Data resistor,330 ohm in series with LED DIN,1,yes,Place close to the fi
 passive,Electrolytic capacitor,1000 uF 6.3 V or higher across LED 5V/GND,1,yes,Place near the strip power entry
 wire,Hook-up wire,26-30 AWG stranded,1 set,yes,Use separate colors for rows and columns
 fastener,M3 heat-set insert,Brass insert,4,yes,Tune hole with tolerance coupon
-fastener,M3 screw,M3x12 mm for the 10 mm upper-panel spacers,4,yes,Right-side controller panel uses printed retention blocks; verify engagement after printing
+fastener,M3 screw,M3x16 mm for the closed lower box and upper control lid,4,yes,Printed corner bosses retain the lid; verify engagement after printing
 foot,Silicone feet,Adhesive or press-fit,4,optional,Prevent desk sliding
 power,USB data cable,USB-C,1,yes,Use a known data cable; straight plug preferred for the front opening
-panel,Controller inspection window,Clear acrylic or transparent PETG about 23.4x49.4x1.5 mm,1,optional,Protects the right-side Arduino Micro and shows the board
+panel,Controller inspection window,Clear acrylic or transparent PETG about 25.4x51.4x1.5 mm,1,yes,Installed from below to close the 24x50 mm upper-lid window

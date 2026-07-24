@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850">
+  <rect width="1400" height="850" fill="#f8fafc"/>
+  <text x="60" y="58" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#14213d">Rev 0.9.4 封闭式盒体装配图</text>
+  <text x="60" y="94" font-family="Arial, sans-serif" font-size="20" fill="#52606d">主控板实测 35×18×10 mm；下层是有底、有侧壁、有 Type-C 前墙开口的完整盒体。</text>
+
+  <!-- Upper control lid -->
+  <g transform="translate(60,135)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#0f766e">① 上层控制盖：plate.stl</text>
+    <rect x="0" y="32" width="560" height="365" rx="24" fill="#e6fffb" stroke="#0f766e" stroke-width="4"/>
+    <g fill="#1f2937" stroke="#111827" stroke-width="2">
+      <rect x="45" y="60" width="54" height="54" rx="7"/>
+      <rect x="45" y="132" width="54" height="54" rx="7"/><rect x="117" y="132" width="54" height="54" rx="7"/><rect x="189" y="132" width="54" height="54" rx="7"/><rect x="261" y="132" width="54" height="54" rx="7"/>
+      <rect x="45" y="204" width="54" height="54" rx="7"/><rect x="117" y="204" width="54" height="54" rx="7"/><rect x="189" y="204" width="54" height="54" rx="7"/><rect x="261" y="204" width="54" height="54" rx="7"/>
+      <rect x="45" y="276" width="54" height="54" rx="7"/><rect x="117" y="276" width="54" height="54" rx="7"/><rect x="189" y="276" width="54" height="54" rx="7"/><rect x="261" y="276" width="54" height="54" rx="7"/>
+    </g>
+    <g font-family="Arial, sans-serif" font-size="16" fill="#ffffff" text-anchor="middle">
+      <text x="72" y="93">A</text><text x="72" y="165">B</text><text x="144" y="165">C</text><text x="216" y="165">D</text><text x="288" y="165">E</text>
+      <text x="72" y="237">F</text><text x="144" y="237">G</text><text x="216" y="237">H</text><text x="288" y="237">I</text>
+      <text x="72" y="309">J</text><text x="144" y="309">K</text><text x="216" y="309">L</text><text x="288" y="309">M</text>
+    </g>
+    <g fill="#22d3ee" stroke="#0891b2" stroke-width="2">
+      <rect x="340" y="65" width="22" height="16" rx="3"/><rect x="369" y="65" width="22" height="16" rx="3"/><rect x="398" y="65" width="22" height="16" rx="3"/><rect x="427" y="65" width="22" height="16" rx="3"/><rect x="456" y="65" width="22" height="16" rx="3"/><rect x="485" y="65" width="22" height="16" rx="3"/>
+      <rect x="340" y="88" width="22" height="16" rx="3"/><rect x="369" y="88" width="22" height="16" rx="3"/><rect x="398" y="88" width="22" height="16" rx="3"/><rect x="427" y="88" width="22" height="16" rx="3"/><rect x="456" y="88" width="22" height="16" rx="3"/><rect x="485" y="88" width="22" height="16" rx="3"/>
+    </g>
+    <rect x="365" y="180" width="135" height="190" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+    <text x="432" y="260" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#1d4ed8">透明主板窗</text>
+    <text x="432" y="288" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#1d4ed8">24×50 mm</text>
+    <circle cx="320" cy="350" r="23" fill="#f97316" stroke="#c2410c" stroke-width="3"/><text x="320" y="385" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#9a3412">EC11 Ø6.2</text>
+  </g>
+
+  <!-- Closed bottom box -->
+  <g transform="translate(740,135)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#7c3aed">② 下层封闭盒体：bottom.stl</text>
+    <rect x="0" y="32" width="560" height="365" rx="24" fill="#ede9fe" stroke="#7c3aed" stroke-width="4"/>
+    <rect x="32" y="64" width="496" height="300" rx="18" fill="#c4b5fd" stroke="#6d28d9" stroke-width="4"/>
+    <rect x="53" y="85" width="454" height="258" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="3"/>
+    <rect x="245" y="102" width="180" height="235" rx="8" fill="#1e293b" stroke="#0f172a" stroke-width="4"/>
+    <text x="335" y="190" font-family="Arial, sans-serif" font-size="22" text-anchor="middle" fill="#c4b5fd">Arduino Micro</text>
+    <text x="335" y="220" font-family="Arial, sans-serif" font-size="17" text-anchor="middle" fill="#c4b5fd">35×18×10 mm</text>
+    <path d="M266 110 L266 330 M404 110 L404 330" stroke="#fbbf24" stroke-width="7"/>
+    <text x="335" y="285" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#fef3c7">左右导轨 0.6 mm 间隙</text>
+    <path d="M270 330 H400" stroke="#f59e0b" stroke-width="12"/>
+    <text x="335" y="357" font-family="Arial, sans-serif" font-size="15" text-anchor="middle" fill="#92400e">底部承托台</text>
+    <rect x="258" y="340" width="154" height="24" rx="4" fill="#ef4444"/>
+    <text x="335" y="382" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#b91c1c">前墙 Type-C 开口 14×9</text>
+    <circle cx="50" cy="82" r="7" fill="#ffffff" stroke="#7c3aed" stroke-width="3"/><circle cx="510" cy="82" r="7" fill="#ffffff" stroke="#7c3aed" stroke-width="3"/>
+  </g>
+
+  <!-- Exploded arrows -->
+  <path d="M620 330 H710" stroke="#475569" stroke-width="6" marker-end="url(#arrow)"/>
+  <text x="665" y="310" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#334155">透明窗从下方安装</text>
+
+  <!-- Section -->
+  <g transform="translate(60,565)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#334155">③ 合盖后的剖面逻辑</text>
+    <rect x="20" y="40" width="1120" height="180" rx="12" fill="#e2e8f0" stroke="#475569" stroke-width="3"/>
+    <rect x="20" y="40" width="1120" height="24" fill="#d1d5db" stroke="#475569" stroke-width="3"/>
+    <text x="580" y="58" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#111827">上层控制盖 3 mm（按键 / 旋钮 / RGB / 透明窗）</text>
+    <rect x="20" y="64" width="1120" height="12" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
+    <text x="580" y="74" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" fill="#1d4ed8">透明窗片 1.5 mm，封闭主板观察口</text>
+    <rect x="20" y="76" width="1120" height="132" fill="#c4b5fd" stroke="#7c3aed" stroke-width="3"/>
+    <rect x="20" y="76" width="24" height="132" fill="#8b5cf6"/><rect x="1116" y="76" width="24" height="132" fill="#8b5cf6"/>
+    <rect x="430" y="102" width="260" height="80" rx="6" fill="#1e293b"/>
+    <text x="560" y="140" font-family="Arial, sans-serif" font-size="19" text-anchor="middle" fill="#c4b5fd">主控 35×18×10</text>
+    <text x="560" y="165" font-family="Arial, sans-serif" font-size="15" text-anchor="middle" fill="#c4b5fd">侧导轨 + 底部承托</text>
+    <rect x="20" y="196" width="1120" height="24" fill="#94a3b8" stroke="#475569" stroke-width="3"/>
+    <text x="580" y="213" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#0f172a">封闭盒底 2.4 mm；盒体总高 16 mm；整机约 19 mm</text>
+    <path d="M1030 76 V52" stroke="#ef4444" stroke-width="5" marker-end="url(#arrow)"/>
+    <text x="1020" y="34" font-family="Arial, sans-serif" font-size="17" text-anchor="middle" fill="#b91c1c">前侧 Type-C 直进</text>
+  </g>
+
+  <text x="60" y="815" font-family="Arial, sans-serif" font-size="18" fill="#475569">装配顺序：先焊线并测试 → 主板压入卡槽 → 安装透明窗 → 整理线束 → 上盖用 4 个 M3×16 mm 螺丝锁紧。</text>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto"><path d="M0,0 L0,8 L11,4 z" fill="#475569"/></marker>
+  </defs>
+</svg>

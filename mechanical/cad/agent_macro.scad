@@ -1,5 +1,5 @@
-// 13keyAgentTools Rev 0.7
-// Two-panel layout: controls on the upper panel, Arduino Micro on the lower panel.
+// 13keyAgentTools Rev 0.9.4
+// Closed-box layout: controls on the upper lid, Arduino Micro inside the lower box.
 // Export one part at a time by changing `part`.
 
 part = "plate"; // plate / bottom / controller_panel / assembly / tolerance / pixel_carrier / window_lens
@@ -9,18 +9,24 @@ $fn = 48;
 case_w = 120;
 case_d = 95;
 plate_t = 3.0;
-controller_panel_t = 4.0;
-spacer_h = 10.0;
+bottom_floor_t = 2.4;
+bottom_wall_t = 2.4;
+bottom_box_h = 16.0;
 corner_r = 4.0;
 
-// Use the large right-side blank area under the upper panel for the controller.
-// The board is rotated vertically and its USB-C connector faces the front edge
-// shown at the top of the panel layout.
+// Measured USB-C Arduino Micro compatible board. The board lies flat inside
+// the closed lower box; its short USB-C end faces the front wall.
+controller_board_w = 18;
+controller_board_l = 35;
+controller_board_h = 10;
 controller_board_x = 89;
-controller_board_y = 43;
+controller_board_y = 57.5;
 controller_usb_x = 98;
-controller_usb_opening_w = 16;
-controller_usb_opening_d = 7;
+controller_usb_opening_w = 14;
+controller_usb_opening_d = 5;
+controller_usb_opening_z = 4.0;
+controller_usb_opening_h = 9.0;
+controller_board_clearance = 0.6;
 
 // Clear inspection window above the controller board.
 controller_window_x = 98;
@@ -28,8 +34,10 @@ controller_window_y = 65;
 controller_window_w = 24;
 controller_window_d = 50;
 window_lens_t = 1.5;
-window_lens_w = 23.4;
-window_lens_d = 49.4;
+// The lens overlaps the 24 x 50 mm opening by 0.7 mm on each side so the
+// controller window is closed when the lens is installed from below.
+window_lens_w = 25.4;
+window_lens_d = 51.4;
 
 key_pitch = 19.05;
 key_hole = 14.0;
@@ -90,13 +98,13 @@ module screw_holes(extra = 1, height = plate_t + 2) {
 }
 
 module usb_opening(extra = 1, height = plate_t + 2) {
-    // Front-edge Type-C relief under the controller area.
+    // Type-C opening belongs to the lower box front wall, not the upper lid.
     translate([
         controller_usb_x - controller_usb_opening_w / 2,
-        case_d - controller_usb_opening_d / 2,
-        -extra
+        case_d - controller_usb_opening_d,
+        controller_usb_opening_z
     ])
-        cube([controller_usb_opening_w, controller_usb_opening_d, height], center = false);
+        cube([controller_usb_opening_w, controller_usb_opening_d, controller_usb_opening_h], center = false);
 }
 
 module controller_window(extra = 1) {
@@ -110,7 +118,7 @@ module controller_window(extra = 1) {
 }
 
 module window_lens() {
-    // Optional clear PETG lens; laser-cut acrylic is preferred for clarity.
+    // Clear PETG lens or acrylic insert; it is part of the closed enclosure.
     translate([
         controller_window_x - window_lens_w / 2,
         controller_window_y - window_lens_d / 2,
@@ -125,7 +133,6 @@ module control_holes(extra = 1) {
     translate([volume_encoder[0], volume_encoder[1], -extra])
         cylinder(d = encoder_shaft_hole_d, h = plate_t + 2 * extra);
 
-    usb_opening(extra);
 }
 
 module quota_windows(extra = 1) {
@@ -155,51 +162,66 @@ module plate() {
     }
 }
 
-module controller_spacers() {
-    // Four integrated M3 spacer rings hold the upper panel 10 mm above the
-    // controller panel. The rings are printed as part of the lower panel.
+module corner_bosses() {
+    // Four integrated M3 bosses receive the upper-lid screws. They are added
+    // after hollowing the box so the corner wall remains structurally strong.
     for (p = screw_positions) {
-        translate([p[0], p[1], controller_panel_t - 0.1])
+        translate([p[0], p[1], 0])
             difference() {
-                cylinder(d = 8, h = spacer_h + 0.1);
+                cylinder(d = 8, h = bottom_box_h);
                 translate([0, 0, -1])
-                    cylinder(d = 3.4, h = spacer_h + 2);
+                    cylinder(d = 3.4, h = bottom_box_h + 2);
             }
     }
 }
 
 module controller_panel() {
+    inner_w = case_w - 2 * bottom_wall_t;
+    inner_d = case_d - 2 * bottom_wall_t;
+    inner_r = corner_r - bottom_wall_t;
     union() {
         difference() {
-            rounded_prism(case_w, case_d, controller_panel_t, corner_r);
+            rounded_prism(case_w, case_d, bottom_box_h, corner_r);
 
-            // Through holes and front USB-C cable relief.
-            screw_holes(height = controller_panel_t + spacer_h + 2);
-            usb_opening(height = controller_panel_t + 2);
+            // Hollow the lower panel into a real box while retaining a 2.4 mm
+            // floor and side walls. The Type-C opening cuts only the front wall.
+            translate([bottom_wall_t, bottom_wall_t, bottom_floor_t])
+                rounded_prism(inner_w, inner_d, bottom_box_h, inner_r);
+            screw_holes(height = bottom_box_h + 2);
+            usb_opening();
         }
-        controller_spacers();
+        corner_bosses();
         micro_board_shelf();
     }
 }
 
 module micro_board_shelf() {
-    // Generic Arduino Micro mounted vertically: 18 x 48 mm board outline.
-    // Retention blocks avoid depending on clone-specific mounting-hole spacing.
+    // Captive cradle for the measured 35 x 18 x 10 mm board. Side rails rise
+    // close to the lid so the board cannot slide or lift out after assembly.
     board_x = controller_board_x;
     board_y = controller_board_y;
-    shelf_w = 22;
-    shelf_d = 52;
-    translate([board_x - 2, board_y - 2, controller_panel_t])
-        cube([shelf_w, shelf_d, 2], center = false);
-    for (p = [
-        [board_x - 2, board_y - 2],
-        [board_x + 17, board_y - 2],
-        [board_x - 2, board_y + 47],
-        [board_x + 17, board_y + 47]
-    ]) {
-        translate([p[0], p[1], controller_panel_t + 2])
-            cube([3, 3, 4], center = false);
-    }
+    pad_x = board_x - controller_board_clearance;
+    pad_y = board_y - controller_board_clearance;
+    pad_w = controller_board_w + 2 * controller_board_clearance;
+    pad_d = controller_board_l + 2 * controller_board_clearance;
+    pad_t = 1.2;
+    rail_t = 1.4;
+    rail_bottom = bottom_floor_t + pad_t - 0.05;
+    rail_h = bottom_box_h - 0.6 - rail_bottom;
+
+    translate([pad_x, pad_y, bottom_floor_t - 0.05])
+        cube([pad_w, pad_d, pad_t + 0.1], center = false);
+
+    // Long side rails leave 0.6 mm clearance to the board edges.
+    translate([pad_x - rail_t, pad_y, rail_bottom])
+        cube([rail_t, pad_d, rail_h], center = false);
+    translate([pad_x + pad_w, pad_y, rail_bottom])
+        cube([rail_t, pad_d, rail_h], center = false);
+
+    // Rear stop prevents the board sliding away from the Type-C port. The
+    // front remains open in the middle so the connector has a straight path.
+    translate([pad_x - rail_t, pad_y, rail_bottom])
+        cube([pad_w + 2 * rail_t, 1.4, 5.0], center = false);
 }
 
 module pixel_carrier() {
@@ -245,12 +267,12 @@ module tolerance_coupon() {
 
 module assembly() {
     color("#d8d8d8")
-        translate([0, 0, controller_panel_t + spacer_h])
+        translate([0, 0, bottom_box_h])
             plate();
     color("#666666")
         controller_panel();
     color("#555555")
-        translate([0, 0, controller_panel_t + spacer_h - 2])
+        translate([0, 0, bottom_box_h - 2])
             pixel_carrier();
 }
 
