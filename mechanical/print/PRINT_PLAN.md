@@ -4,6 +4,8 @@
 
 当前 Rev 0.9.4 可打印文件：
 
+装配过程可先看：[Rev 0.9.4 封闭盒体装配视频](../../docs/media/assembly_walkthrough.mp4)
+
 - `../exports/tolerance_coupon.stl`：先打印，用来确定轴孔和 M3 热熔螺母公差。
 - `../exports/pixel_carrier.stl`：12 颗独立 RGB 灯珠的定位承载条。
 - `../exports/plate.stl`：上层控制盖，包含 13 键、旋钮、水平灯窗和主板透明窗。

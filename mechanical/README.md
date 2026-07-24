@@ -6,6 +6,7 @@
 
 - `cad/agent_macro.scad`：上层控制盖、下层封闭盒体、主控卡槽、装配预览和公差件。
 - `exports/`：可直接导入 Bambu Studio、PrusaSlicer 或 Cura 的 STL 文件。
+- `../docs/media/assembly_walkthrough.mp4`：面向新手的封闭盒体装配视频。
 - `exports/pixel_carrier.stl`：固定 12 颗独立 RGB 灯珠的承载条。
 - `exports/window_lens.stl`：封闭主板观察窗的透明 PETG 镜片；追求清晰度时优先使用亚克力片。
 - `tools/generate_stl.py`：无 GUI 环境下的可重复 STL 导出脚本。
